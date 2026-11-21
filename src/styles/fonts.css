@@ -2,7 +2,7 @@
    NOTE: combining marks (U+0304 etc.) are deliberately left OUT of the latin ranges so browsers use the
    precomposed Latvian glyphs (ī, ā, ē …) from the latin-ext files instead of decomposing them.
    Self-hosted variable fonts (SIL OFL 1.1) — latin + latin-ext cover Latvian diacritics
-   ā č ē ģ ī ķ ļ ņ š ū ž. Files in /public/fonts. */
+   ā č ē ģ ī ķ ļ ņ š ū ž. Files in src/assets/fonts. */
 @font-face {
   font-family: 'Newsreader';
   font-style: normal;

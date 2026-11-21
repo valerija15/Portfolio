@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Rebuilds the self-hosted fonts in public/fonts from Fontsource packages:
+Rebuilds the self-hosted fonts in src/assets/fonts from Fontsource packages:
   - limits Newsreader to wght 300–500 and opsz 24–72 (all the site uses)
   - subsets "latin" to Western Latin + typographic punctuation and
     "latin-ext" to Latin Extended-A (U+0100–017F: ā č ē ģ ī ķ ļ ņ š ū ž …)
