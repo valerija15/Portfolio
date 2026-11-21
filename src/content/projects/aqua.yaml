@@ -1,0 +1,62 @@
+# PLACEHOLDER PROJECT — fictional client, copy and figures. Replace before launch.
+slug: aqua
+placeholder: true
+featured: false
+order: 8
+layout: wide
+year: 2022
+category: crisis-communication
+client: Aqua Rīga
+role:
+  lv: Krīzes komunikācijas konsultante
+  en: Crisis communication adviser
+title:
+  lv: 72 stundas skaidrības
+  en: 72 Hours of Clarity
+summary:
+  lv: Krīzes komunikācija ūdens kvalitātes incidenta laikā — ātri, godīgi, cilvēcīgi.
+  en: Crisis communication during a water quality incident — fast, honest, human.
+cover:
+  type: image
+  src: ../../assets/images/projects/aqua-cover.jpg
+  alt:
+    lv: Laikrakstu lapas uz olīvu toņa fona
+    en: Newspaper pages on an olive background
+overview:
+  lv: |
+    Kad tika konstatēts ūdens kvalitātes incidents, uzņēmumam bija jāinformē 200 000 iedzīvotāju dažu stundu laikā.
+  en: |
+    When a water quality incident was detected, the utility had to inform 200,000 residents within hours.
+challenge:
+  lv: |
+    Nepilnīga informācija, sociālo mediju baumas un augsta sabiedrības trauksme.
+  en: |
+    Incomplete information, social media rumours and high public anxiety.
+strategy:
+  lv: |
+    Viens avots, regulārs ritms: atjauninājumi ik pēc divām stundām, pat ja jaunu ziņu nav.
+  en: |
+    One source, steady rhythm: updates every two hours, even when there was nothing new.
+execution:
+  lv: |
+    Krīzes štābs, preses konferences, FAQ lapa trīs valodās un tieša saziņa ar slimnīcām un skolām.
+  en: |
+    A crisis room, press briefings, an FAQ page in three languages and direct contact with hospitals and schools.
+# FICTIONAL FIGURES — replace with verified results
+results:
+  - value: "72 h"
+    label: { lv: līdz pilnai situācijas atrisināšanai, en: to full resolution }
+  - value: "36"
+    label: { lv: atjauninājumi, en: public updates }
+  - value: "81%"
+    label: { lv: iedzīvotāju uzticējās informācijai, en: of residents trusted the updates }
+gallery:
+  - type: image
+    src: ../../assets/images/projects/aqua-1.jpg
+    alt: { lv: Preses konferences zāle, en: Press briefing room }
+  - type: image
+    src: ../../assets/images/projects/aqua-2.jpg
+    alt: { lv: Informatīvie materiāli, en: Information materials }
+  - type: image
+    src: ../../assets/images/projects/aqua-3.jpg
+    alt: { lv: Krīzes štābs, en: Crisis room }

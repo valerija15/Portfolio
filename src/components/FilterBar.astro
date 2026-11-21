@@ -1,0 +1,87 @@
+---
+/**
+ * Accessible filter toolbar (progressive enhancement):
+ * - hidden without JS so every item stays visible
+ * - aria-pressed toggle buttons, result count announced via a live region
+ * - state mirrored to ?{param}= so filtered views are shareable
+ */
+interface Props {
+  label: string;
+  allLabel: string;
+  options: { value: string; label: string }[];
+  target: string;          // CSS selector of the list container
+  itemAttr: string;        // data attribute on items, e.g. "category"
+  param: string;           // query param name
+  countOne: string;        // e.g. "{n} project"
+  countMany: string;       // e.g. "{n} projects"
+  emptyText: string;
+}
+const { label, allLabel, options, target, itemAttr, param, countOne, countMany, emptyText } = Astro.props;
+---
+<div class="filter" data-filter data-target={target} data-attr={itemAttr} data-param={param} data-one={countOne} data-many={countMany} hidden>
+  <div role="group" aria-label={label} class="filter__group">
+    <button type="button" aria-pressed="true" data-value="">{allLabel}</button>
+    {options.map((o) => <button type="button" aria-pressed="false" data-value={o.value}>{o.label}</button>)}
+  </div>
+  <p class="filter__count" role="status" aria-live="polite" data-count></p>
+  <p class="filter__empty" data-empty hidden>{emptyText}</p>
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-filter]').forEach((bar) => {
+    const list = document.querySelector<HTMLElement>(bar.dataset.target!);
+    if (!list) return;
+    const attr = bar.dataset.attr!;
+    const param = bar.dataset.param!;
+    const buttons = [...bar.querySelectorAll<HTMLButtonElement>('button[data-value]')];
+    const items = [...list.querySelectorAll<HTMLElement>(`[data-${attr}]`)];
+    const count = bar.querySelector<HTMLElement>('[data-count]')!;
+    const empty = bar.querySelector<HTMLElement>('[data-empty]')!;
+    const valid = new Set(buttons.map((b) => b.dataset.value));
+
+    const apply = (value: string, push: boolean) => {
+      if (!valid.has(value)) value = '';
+      let shown = 0;
+      for (const item of items) {
+        const match = !value || item.dataset[attr] === value;
+        item.hidden = !match;
+        if (match) {
+          shown++;
+          item.classList.add('is-visible'); // never leave filtered-in items un-revealed
+        }
+      }
+      buttons.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.value === value)));
+      count.textContent = (shown === 1 ? bar.dataset.one! : bar.dataset.many!).replace('{n}', String(shown));
+      empty.hidden = shown > 0;
+      list.dataset.filtered = value ? 'true' : 'false';
+      if (push) {
+        const url = new URL(location.href);
+        value ? url.searchParams.set(param, value) : url.searchParams.delete(param);
+        history.replaceState(null, '', url);
+      }
+    };
+
+    buttons.forEach((b) => b.addEventListener('click', () => apply(b.dataset.value ?? '', true)));
+    bar.hidden = false;
+    apply(new URL(location.href).searchParams.get(param) ?? '', false);
+  });
+</script>
+
+<style>
+  .filter { margin-bottom: var(--space-xl); }
+  .filter__group { display: flex; flex-wrap: wrap; gap: 0.5rem 0.25rem; }
+  .filter button {
+    min-height: 2.75rem; padding: 0.45rem 1rem;
+    border: 1px solid var(--color-line-strong);
+    font-size: 0.9rem; font-weight: 450;
+    transition: background var(--dur-fast), color var(--dur-fast), border-color var(--dur-fast);
+  }
+  .filter button:hover { border-color: var(--color-ink); }
+  .filter button[aria-pressed='true'] { background: var(--color-ink); border-color: var(--color-ink); color: var(--color-paper); }
+  .filter__count { margin-top: var(--space-s); font-size: var(--step--1); color: var(--color-muted); }
+  .filter__empty { margin-top: var(--space-l); font-family: var(--font-display); font-size: var(--step-2); }
+  @media (max-width: 47.99rem) {
+    .filter__group { flex-wrap: nowrap; overflow-x: auto; margin-inline: calc(var(--gutter) * -1); padding-inline: var(--gutter); scrollbar-width: none; scroll-snap-type: x proximity; }
+    .filter button { flex: none; scroll-snap-align: start; }
+  }
+</style>

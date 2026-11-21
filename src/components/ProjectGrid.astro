@@ -1,0 +1,48 @@
+---
+import type { Lang } from '@/i18n';
+import type { Project } from '@/lib/content';
+import ProjectTile from './ProjectTile.astro';
+
+interface Props { lang: Lang; projects: Project[]; id?: string; headingLevel?: 'h2' | 'h3' }
+const { lang, projects, id, headingLevel } = Astro.props;
+---
+<div class="project-grid" id={id} data-project-grid>
+  {projects.map((project, i) => <ProjectTile lang={lang} project={project} index={i} priority={i === 0} headingLevel={headingLevel} />)}
+</div>
+
+<style>
+  /* Editorial grid: tile size comes from each project's `layout` hint. */
+  .project-grid {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    gap: var(--space-xl) var(--gutter);
+    grid-auto-flow: row dense;
+    align-items: start;
+  }
+  .project-grid > :global(.tile) { grid-column: span 12; }
+
+  /* Mobile: deliberate rhythm — full-bleed, inset left, inset right. */
+  @media (max-width: 47.99rem) {
+    .project-grid > :global(.tile--large), .project-grid > :global(.tile--wide) { grid-column: 1 / -1; margin-inline: calc(var(--gutter) * -1); }
+    .project-grid > :global(.tile--large .tile__caption), .project-grid > :global(.tile--wide .tile__caption) { padding-inline: var(--gutter); }
+    .project-grid > :global(.tile--tall) { grid-column: 3 / -1; }
+    .project-grid > :global(.tile--standard) { grid-column: 1 / 12; }
+    .project-grid > :global(.tile--wide) { --ratio: 4 / 3; }
+  }
+  @media (min-width: 48rem) {
+    .project-grid > :global(.tile--large) { grid-column: span 7; }
+    .project-grid > :global(.tile--tall) { grid-column: span 5; }
+    .project-grid > :global(.tile--standard) { grid-column: span 6; }
+    .project-grid > :global(.tile--wide) { grid-column: 1 / -1; }
+    /* Offset every second tile for an asymmetric, editorial rhythm */
+    .project-grid > :global(.tile--tall:nth-child(even)),
+    .project-grid > :global(.tile--standard:nth-child(even)) { margin-top: var(--space-2xl); }
+  }
+  @media (min-width: 80rem) {
+    .project-grid > :global(.tile--wide) { grid-column: 2 / -1; }
+    .project-grid > :global(.tile--large) { grid-column: span 7; }
+    .project-grid > :global(.tile--tall) { grid-column: span 4; }
+    .project-grid > :global(.tile--tall:nth-child(4n+2)) { grid-column: 9 / span 4; }
+  }
+  .project-grid[data-filtered='true'] > :global(.tile) { margin-top: 0 !important; }
+</style>

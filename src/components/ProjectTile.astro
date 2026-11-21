@@ -1,0 +1,92 @@
+---
+import { type Lang, useTranslations, l } from '@/i18n';
+import { projectUrl } from '@/lib/routes';
+import { pad2 } from '@/lib/format';
+import type { Project } from '@/lib/content';
+import MediaBlock from './MediaBlock.astro';
+import VideoToggle from './VideoToggle.astro';
+
+interface Props { lang: Lang; project: Project; index: number; priority?: boolean; headingLevel?: 'h2' | 'h3' }
+const { lang, project, index, priority = false, headingLevel = 'h3' } = Astro.props;
+const t = useTranslations(lang);
+const Heading = headingLevel;
+const sizesByLayout = {
+  large: '(min-width: 64rem) 58vw, 100vw',
+  wide: '(min-width: 64rem) 92vw, 100vw',
+  tall: '(min-width: 64rem) 40vw, 85vw',
+  standard: '(min-width: 64rem) 48vw, 90vw',
+} as const;
+const isVideo = project.cover.type === 'video';
+const titleId = `tile-${project.slug}`;
+---
+<article
+  class:list={['tile', `tile--${project.layout}`]}
+  data-category={project.category}
+  data-loop-video={isVideo ? '' : undefined}
+  data-reveal
+  aria-labelledby={titleId}
+>
+  <a class="tile__link" href={projectUrl(lang, project.slug)}>
+    <div class="tile__media frame">
+      <MediaBlock lang={lang} media={project.cover} sizes={sizesByLayout[project.layout]} priority={priority} standalone={false} />
+      <div class="tile__overlay" aria-hidden="true">
+        <span class="tile__overlay-cat">{t(`categories.${project.category}`)}</span>
+        <span class="tile__overlay-cta">{t('work.viewProject')} →</span>
+      </div>
+    </div>
+    <div class="tile__caption">
+      <span class="tile__num index-num" aria-hidden="true">{pad2(index + 1)}</span>
+      <Heading id={titleId} class="tile__title">{l(project.title, lang)}</Heading>
+      <p class="tile__meta">
+        <span>{project.client}</span>
+        <span class="tile__meta-cat">{t(`categories.${project.category}`)}</span>
+        <span>{project.year}</span>
+      </p>
+    </div>
+  </a>
+  {isVideo && <VideoToggle lang={lang} />}
+</article>
+
+<style>
+  .tile { position: relative; }
+  .tile__link { display: block; text-decoration: none; color: inherit; }
+  .tile__media { aspect-ratio: var(--ratio, 4 / 3); }
+  .tile--large { --ratio: 4 / 3; }
+  .tile--tall { --ratio: 4 / 5; }
+  .tile--wide { --ratio: 16 / 8; }
+  .tile--standard { --ratio: 5 / 4; }
+  .tile__media :global(img), .tile__media :global(.loop-video) {
+    transition: transform 1.2s var(--ease-out), filter var(--dur-med);
+  }
+  .tile__link:hover .tile__media :global(img),
+  .tile__link:focus-visible .tile__media :global(img),
+  .tile__link:hover .tile__media :global(.loop-video),
+  .tile__link:focus-visible .tile__media :global(.loop-video) { transform: scale(1.04); }
+
+  .tile__overlay {
+    position: absolute; inset: auto 0 0 0; z-index: 2;
+    display: flex; justify-content: space-between; align-items: center; gap: 1rem;
+    padding: 0.85rem 1rem; padding-right: 4rem;
+    background: var(--color-ink); color: var(--color-paper);
+    font-size: var(--step--1); letter-spacing: 0.04em;
+    transform: translateY(101%); transition: transform var(--dur-med) var(--ease-out);
+  }
+  .tile:not([data-loop-video]) .tile__overlay { padding-right: 1rem; }
+  .tile__overlay-cat { text-transform: uppercase; letter-spacing: var(--tracking-caps); font-size: 0.72rem; }
+  .tile__link:hover .tile__overlay, .tile__link:focus-visible .tile__overlay { transform: none; }
+
+  .tile__caption {
+    display: grid; grid-template-columns: auto 1fr; column-gap: 1rem; align-items: baseline;
+    padding-top: 1rem;
+  }
+  .tile__num { grid-row: span 2; font-size: var(--step--1); color: var(--color-muted); }
+  .tile__title { font-size: var(--step-2); line-height: 1.12; transition: color var(--dur-fast); }
+  .tile__link:hover .tile__title { color: var(--color-accent); }
+  .tile__meta { display: flex; flex-wrap: wrap; gap: 0.2rem 0.9rem; margin-top: 0.35rem; font-size: var(--step--1); color: var(--color-muted); }
+  .tile__meta span + span::before { content: '—'; margin-right: 0.9rem; opacity: 0.5; }
+  @media (hover: hover) and (pointer: fine) {
+    .tile__meta-cat { display: none; }
+  }
+  @media (hover: none) { .tile__overlay { display: none; } }
+  .tile :global(.video-toggle) { top: 0.75rem; bottom: auto; }
+</style>

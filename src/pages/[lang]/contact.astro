@@ -1,0 +1,73 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import ContactForm from '@/components/ContactForm.astro';
+import ExtIcon from '@/components/ExtIcon.astro';
+import { type Lang, langPaths, useTranslations, l } from '@/i18n';
+import { getSite } from '@/lib/content';
+
+export const getStaticPaths = langPaths;
+const lang = Astro.params.lang as Lang;
+const t = useTranslations(lang);
+const site = await getSite();
+const tel = site.phone?.replace(/[^\d+]/g, '');
+---
+<BaseLayout lang={lang} title={t('meta.contact.title')} description={t('meta.contact.description')}>
+  <section class="container contact" aria-labelledby="contact-title">
+    <header class="contact__head">
+      <p class="eyebrow eyebrow--accent" data-reveal>{t('contact.title')}</p>
+      <h1 id="contact-title" class="display contact__title" data-reveal style="--reveal-delay:1">{t('contact.headline')}</h1>
+      <p class="lead contact__intro" data-reveal style="--reveal-delay:2">{t('contact.intro')}</p>
+    </header>
+
+    <div class="contact__grid">
+      <dl class="contact__details" data-reveal>
+        <div>
+          <dt class="eyebrow">{t('contact.email')}</dt>
+          <dd><a class="contact__big" href={`mailto:${site.email}`}>{site.email}</a></dd>
+        </div>
+        {site.showPhone && site.phone && (
+          <div>
+            <dt class="eyebrow">{t('contact.phone')}</dt>
+            <dd><a href={`tel:${tel}`}>{site.phone}</a></dd>
+          </div>
+        )}
+        <div>
+          <dt class="eyebrow">{t('contact.linkedin')}</dt>
+          <dd>
+            <a href={site.socials.linkedin} target="_blank" rel="noopener noreferrer">
+              linkedin.com <ExtIcon /><span class="sr-only">{t('common.newTab')}</span>
+            </a>
+          </dd>
+        </div>
+        <div>
+          <dt class="eyebrow">{t('contact.location')}</dt>
+          <dd>{l(site.location, lang)}</dd>
+        </div>
+      </dl>
+
+      <div class="contact__form" data-reveal style="--reveal-delay:1">
+        <h2 class="contact__form-title">{t('contact.form.title')}</h2>
+        <ContactForm lang={lang} site={site} />
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .contact { padding-block: var(--space-xl) var(--space-2xl); }
+  .contact__head { display: grid; gap: var(--space-m); padding-bottom: var(--space-xl); }
+  .contact__title { font-size: var(--step-6); max-width: 13ch; }
+  .contact__intro { max-width: 34ch; }
+  .contact__grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: var(--space-xl) var(--gutter); padding-top: var(--space-xl); border-top: 1px solid var(--color-line-strong); }
+  .contact__details, .contact__form { grid-column: 1 / -1; }
+  @media (min-width: 64rem) {
+    .contact__details { grid-column: 1 / span 4; }
+    .contact__form { grid-column: 6 / -1; }
+  }
+  .contact__details { display: grid; gap: var(--space-l); align-content: start; }
+  .contact__details dd { margin-top: 0.35rem; font-size: var(--step-1); }
+  .contact__details a { text-underline-offset: 0.25em; }
+  .contact__details a:hover { color: var(--color-accent); }
+  .contact__big { font-family: var(--font-display); font-size: var(--step-2); word-break: break-word; }
+  .contact__form-title { font-size: var(--step-3); margin-bottom: var(--space-l); }
+</style>

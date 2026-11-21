@@ -1,0 +1,216 @@
+{
+  "meta": {
+    "siteName": "Anna Bērziņa — Sabiedriskās attiecības",
+    "locale": "lv_LV",
+    "home": {
+      "title": "Anna Bērziņa — Sabiedrisko attiecību speciāliste",
+      "description": "Anna Bērziņa ir sabiedrisko attiecību speciāliste no Rīgas: PR kampaņas, mediju attiecības, pasākumu un krīzes komunikācija."
+    },
+    "about": {
+      "title": "Par mani",
+      "description": "Annas Bērziņas profesionālā pieredze, vērtības un kompetences sabiedrisko attiecību jomā."
+    },
+    "work": {
+      "title": "Darbi",
+      "description": "Izvēlēti PR, mediju attiecību, pasākumu un krīzes komunikācijas projekti."
+    },
+    "experience": {
+      "title": "Pieredze",
+      "description": "Profesionālā pieredze, izglītība un sertifikāti."
+    },
+    "media": {
+      "title": "Mediji un publikācijas",
+      "description": "Raksti, intervijas, preses relīzes un mediju uzstāšanās."
+    },
+    "contact": {
+      "title": "Kontakti",
+      "description": "Sazinieties ar Annu Bērziņu par sadarbību, kampaņām vai mediju jautājumiem."
+    },
+    "privacy": {
+      "title": "Privātuma paziņojums",
+      "description": "Kā tiek apstrādāti kontaktformā iesniegtie dati."
+    },
+    "notFound": {
+      "title": "Lapa nav atrasta",
+      "description": "Meklētā lapa neeksistē."
+    }
+  },
+  "nav": {
+    "home": "Sākums",
+    "about": "Par mani",
+    "work": "Darbi",
+    "experience": "Pieredze",
+    "media": "Mediji",
+    "contact": "Kontakti",
+    "label": "Galvenā navigācija",
+    "menu": "Izvēlne",
+    "openMenu": "Atvērt izvēlni",
+    "closeMenu": "Aizvērt izvēlni",
+    "skip": "Pāriet uz saturu",
+    "language": "Valoda",
+    "switchTo": "Pārslēgt uz latviešu valodu",
+    "current": "pašreizējā lapa"
+  },
+  "langNames": {
+    "lv": "Latviešu",
+    "en": "English"
+  },
+  "common": {
+    "newTab": "(atveras jaunā cilnē)",
+    "readMore": "Lasīt vairāk",
+    "present": "šobrīd",
+    "fictional": "Ilustratīvs saturs — fiktīvi dati",
+    "play": "Atskaņot",
+    "pause": "Pauzēt",
+    "playVideo": "Atskaņot video",
+    "pauseVideo": "Pauzēt video",
+    "loadVideo": "Ielādēt un atskaņot video",
+    "videoConsent": "Video tiks ielādēts no {provider}."
+  },
+  "home": {
+    "scroll": "Ritināt",
+    "ctaWork": "Apskatīt darbus",
+    "ctaContact": "Sazināties",
+    "selectedWork": "Izvēlētie darbi",
+    "allWork": "Visi darbi",
+    "aboutTitle": "Par mani",
+    "aboutLink": "Vairāk par mani",
+    "mediaTitle": "Mediju uzmanībā",
+    "testimonialsTitle": "Ko saka sadarbības partneri"
+  },
+  "work": {
+    "title": "Darbi",
+    "intro": "Kampaņas, pasākumi un stāsti, kas veidoti kopā ar zīmoliem, institūcijām un cilvēkiem.",
+    "filterLabel": "Filtrēt pēc kategorijas",
+    "all": "Visi",
+    "count": "{n} projekti",
+    "countOne": "{n} projekts",
+    "empty": "Šajā kategorijā projektu nav.",
+    "client": "Klients",
+    "category": "Kategorija",
+    "year": "Gads",
+    "role": "Loma",
+    "overview": "Pārskats",
+    "challenge": "Izaicinājums",
+    "strategy": "Stratēģija un pieeja",
+    "execution": "Īstenošana",
+    "results": "Rezultāti un ietekme",
+    "gallery": "Galerija",
+    "links": "Publikācijas un materiāli",
+    "prev": "Iepriekšējais projekts",
+    "next": "Nākamais projekts",
+    "back": "Atpakaļ uz darbiem",
+    "openGallery": "Atvērt galerijā: {title}",
+    "viewProject": "Skatīt projektu"
+  },
+  "categories": {
+    "pr-campaign": "PR kampaņas",
+    "media-relations": "Mediju attiecības",
+    "event-communication": "Pasākumu komunikācija",
+    "brand-communication": "Zīmola komunikācija",
+    "social-media": "Sociālo mediju kampaņas",
+    "content-creation": "Satura veidošana",
+    "public-events": "Publiski pasākumi",
+    "crisis-communication": "Krīzes komunikācija"
+  },
+  "lightbox": {
+    "label": "Galerija",
+    "close": "Aizvērt",
+    "prev": "Iepriekšējais",
+    "next": "Nākamais",
+    "counter": "{i} no {n}"
+  },
+  "about": {
+    "title": "Par mani",
+    "principles": "Pieeja komunikācijai",
+    "expertise": "Kompetences",
+    "cv": "Lejupielādēt CV (PDF)"
+  },
+  "experience": {
+    "title": "Pieredze",
+    "intro": "Ceļš no ziņu redakcijas līdz stratēģiskai komunikācijai.",
+    "work": "Darba pieredze",
+    "education": "Izglītība un sertifikāti",
+    "education-kind": "Izglītība",
+    "certification-kind": "Sertifikāts"
+  },
+  "media": {
+    "title": "Mediji un publikācijas",
+    "intro": "Raksti, intervijas un uzstāšanās medijos, kā arī kampaņu publikācijas.",
+    "filterLabel": "Filtrēt pēc veida",
+    "all": "Visi",
+    "languageHint": "Publikācijas valoda: {lang}",
+    "watch": "Skatīties",
+    "read": "Lasīt",
+    "types": {
+      "article": "Raksts",
+      "press-release": "Preses relīze",
+      "interview": "Intervija",
+      "media-appearance": "Uzstāšanās medijos",
+      "campaign-publication": "Kampaņas publikācija",
+      "video-interview": "Video intervija"
+    },
+    "count": "{n} publikācijas",
+    "countOne": "{n} publikācija",
+    "empty": "Šāda veida publikāciju nav."
+  },
+  "contact": {
+    "title": "Kontakti",
+    "headline": "Parunāsim par jūsu nākamo stāstu.",
+    "intro": "Neatkarīgi no tā, vai plānojat kampaņu, gatavojaties pasākumam vai meklējat padomu krīzes situācijā — rakstiet.",
+    "email": "E-pasts",
+    "phone": "Tālrunis",
+    "linkedin": "LinkedIn",
+    "location": "Atrašanās vieta",
+    "form": {
+      "title": "Rakstīt ziņu",
+      "name": "Vārds",
+      "email": "E-pasts",
+      "subject": "Tēma",
+      "message": "Ziņa",
+      "consent": "Piekrītu, ka mani dati tiek apstrādāti, lai atbildētu uz šo ziņu saskaņā ar",
+      "consentLink": "privātuma paziņojumu",
+      "required": "obligāts",
+      "submit": "Nosūtīt ziņu",
+      "submitMail": "Atvērt e-pasta programmā",
+      "sending": "Sūta…",
+      "success": "Paldies! Ziņa nosūtīta — atbildēšu divu darba dienu laikā.",
+      "error": "Neizdevās nosūtīt ziņu. Lūdzu, mēģiniet vēlreiz vai rakstiet uz {email}.",
+      "mailtoNote": "Poga atvērs jūsu e-pasta programmu ar sagatavotu ziņu.",
+      "mailtoOpened": "E-pasta programmai vajadzētu atvērties. Ja tā nenotiek, rakstiet uz {email}.",
+      "errorsSummary": "Lūdzu, izlabojiet {n} kļūdu(-as) formā.",
+      "errors": {
+        "name": "Lūdzu, ievadiet vārdu.",
+        "email": "Lūdzu, ievadiet derīgu e-pasta adresi.",
+        "subject": "Lūdzu, ievadiet tēmu.",
+        "message": "Lūdzu, uzrakstiet ziņu (vismaz 10 rakstzīmes).",
+        "consent": "Lai nosūtītu ziņu, nepieciešama jūsu piekrišana."
+      },
+      "honeypot": "Neaizpildiet šo lauku"
+    }
+  },
+  "cta": {
+    "title": "Ir stāsts, ko vērts izstāstīt?",
+    "text": "Pastāstiet par savu ideju — kopā atradīsim veidu, kā to izstāstīt.",
+    "button": "Sazināties"
+  },
+  "footer": {
+    "rights": "Visas tiesības aizsargātas.",
+    "privacy": "Privātuma paziņojums",
+    "backToTop": "Uz augšu"
+  },
+  "notFound": {
+    "title": "Šī lapa ir aizgājusi no skatuves.",
+    "text": "Lapa, ko meklējat, neeksistē vai ir pārvietota.",
+    "home": "Uz sākumlapu",
+    "work": "Apskatīt darbus"
+  },
+  "privacy": {
+    "title": "Privātuma paziņojums",
+    "updated": "Atjaunināts",
+    "body": "## Kas apstrādā datus\nPārzinis ir Anna Bērziņa ({email}).\n\n## Kādi dati tiek vākti\nKontaktformā ievadītais vārds, e-pasta adrese, tēma un ziņa. Citi dati netiek vākti.\n\n## Kāpēc\nTikai lai atbildētu uz jūsu ziņu (VDAR 6. panta 1. punkta a apakšpunkts — piekrišana).\n\n## Cik ilgi\nZiņas tiek glabātas ne ilgāk kā 12 mēnešus pēc pēdējās saziņas.\n\n## Trešās puses\nJa forma ir pieslēgta formu apstrādes pakalpojumam, dati tiek nodoti šim apstrādātājam tikai ziņas piegādei.\n\n## Sīkdatnes un analītika\nVietne neizmanto sīkdatnes vai analītiku. Pārlūkprogrammā tiek saglabāta tikai jūsu valodas izvēle (localStorage).\n\n## Jūsu tiesības\nJūs varat pieprasīt piekļuvi saviem datiem, to labošanu vai dzēšanu, rakstot uz {email}. Jums ir tiesības iesniegt sūdzību Datu valsts inspekcijā."
+  },
+  "dates": {
+    "present": "šobrīd"
+  }
+}

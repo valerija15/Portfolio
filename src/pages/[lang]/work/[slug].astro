@@ -1,0 +1,201 @@
+---
+import { Picture } from 'astro:assets';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import MediaBlock from '@/components/MediaBlock.astro';
+import Gallery from '@/components/Gallery.astro';
+import ExtIcon from '@/components/ExtIcon.astro';
+import ContactBand from '@/components/ContactBand.astro';
+import { type Lang, LOCALES, useTranslations, l } from '@/i18n';
+import { routeUrl, projectUrl } from '@/lib/routes';
+import { md } from '@/lib/markdown';
+import { pad2 } from '@/lib/format';
+import { getProjects, getSite, type Project } from '@/lib/content';
+import { getImage } from 'astro:assets';
+
+export async function getStaticPaths() {
+  const projects = await getProjects();
+  return LOCALES.flatMap((lang) =>
+    projects.map((project, i) => ({
+      params: { lang, slug: project.slug },
+      props: {
+        project,
+        prev: projects[(i - 1 + projects.length) % projects.length]!,
+        next: projects[(i + 1) % projects.length]!,
+      },
+    })),
+  );
+}
+
+interface Props { project: Project; prev: Project; next: Project }
+const { project, prev, next } = Astro.props;
+const lang = Astro.params.lang as Lang;
+const t = useTranslations(lang);
+const site = await getSite();
+const title = l(project.title, lang);
+
+const coverImage = project.cover.type === 'image' ? project.cover.src : project.cover.poster;
+const og = await getImage({ src: coverImage, width: 1200, height: 630, fit: 'cover', format: 'jpg' });
+
+const sections = (['overview', 'challenge', 'strategy', 'execution'] as const)
+  .filter((key) => project[key])
+  .map((key) => ({ key, html: md(l(project[key]!, lang)) }));
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'CreativeWork',
+  name: title,
+  headline: title,
+  description: l(project.summary, lang),
+  dateCreated: String(project.year),
+  inLanguage: lang,
+  genre: t(`categories.${project.category}`),
+  image: new URL(og.src, Astro.site).href,
+  url: new URL(projectUrl(lang, project.slug), Astro.site).href,
+  creator: { '@type': 'Person', name: site.name, jobTitle: l(site.title, lang) },
+  sourceOrganization: { '@type': 'Organization', name: project.client },
+};
+const thumb = (p: Project) => (p.cover.type === 'image' ? p.cover.src : p.cover.poster);
+let n = 0;
+const num = () => pad2(++n);
+---
+<BaseLayout lang={lang} title={title} description={l(project.summary, lang)} image={og.src} type="article" jsonLd={jsonLd}>
+  <article class="project">
+    <div class="project__hero frame">
+      <MediaBlock lang={lang} media={project.cover} sizes="100vw" widths={[640, 960, 1280, 1600, 2000, 2400]} priority />
+    </div>
+
+    <header class="project__head container">
+      <a class="project__back link" href={routeUrl(lang, 'work')}><span class="arrow" aria-hidden="true">←</span> {t('work.back')}</a>
+      <h1 class="project__title display" data-reveal>{title}</h1>
+      <p class="project__summary lead" data-reveal style="--reveal-delay:1">{l(project.summary, lang)}</p>
+      <dl class="project__meta" data-reveal style="--reveal-delay:2">
+        <div><dt>{t('work.client')}</dt><dd>{project.client}</dd></div>
+        <div><dt>{t('work.category')}</dt><dd><a href={`${routeUrl(lang, 'work')}?category=${project.category}`}>{t(`categories.${project.category}`)}</a></dd></div>
+        <div><dt>{t('work.year')}</dt><dd>{project.year}</dd></div>
+        <div><dt>{t('work.role')}</dt><dd>{l(project.role, lang)}</dd></div>
+      </dl>
+    </header>
+
+    {sections.map(({ key, html }) => (
+      <section class="project__section container" aria-labelledby={`s-${key}`}>
+        <h2 id={`s-${key}`} class="project__label"><span class="index-num" aria-hidden="true">{num()}</span> {t(`work.${key}`)}</h2>
+        <div class:list={['prose', key === 'overview' && 'prose--lead']} data-reveal set:html={html} />
+      </section>
+    ))}
+
+    {project.results && project.results.length > 0 && (
+      <section class="project__section project__results container" aria-labelledby="s-results">
+        <h2 id="s-results" class="project__label"><span class="index-num" aria-hidden="true">{num()}</span> {t('work.results')}</h2>
+        <div>
+          <ul role="list" class="stats">
+            {project.results.map((r, i) => (
+              <li data-reveal style={`--reveal-delay:${i}`}>
+                <span class="stats__value display">{r.value}</span>
+                <span class="stats__label">{l(r.label, lang)}</span>
+              </li>
+            ))}
+          </ul>
+          {project.placeholder && <p class="stats__note">{t('common.fictional')}</p>}
+        </div>
+      </section>
+    )}
+
+    {project.gallery && project.gallery.length > 0 && (
+      <section class="project__gallery container" aria-labelledby="s-gallery">
+        <h2 id="s-gallery" class="project__label"><span class="index-num" aria-hidden="true">{num()}</span> {t('work.gallery')}</h2>
+        <Gallery lang={lang} items={project.gallery} title={title} />
+      </section>
+    )}
+
+    {project.links && project.links.length > 0 && (
+      <section class="project__section container" aria-labelledby="s-links">
+        <h2 id="s-links" class="project__label"><span class="index-num" aria-hidden="true">{num()}</span> {t('work.links')}</h2>
+        <ul role="list" class="ext-links">
+          {project.links.map((link) => (
+            <li>
+              <a href={link.url} target="_blank" rel="noopener noreferrer">
+                <span class="ext-links__outlet eyebrow">{link.outlet}</span>
+                <span class="ext-links__title">{l(link.title, lang)}</span>
+                <ExtIcon />
+                <span class="sr-only">{t('common.newTab')}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
+
+    <nav class="pager container" aria-label={`${t('work.prev')} / ${t('work.next')}`}>
+      {[{ p: prev, label: t('work.prev'), dir: 'prev' }, { p: next, label: t('work.next'), dir: 'next' }].map(({ p, label, dir }) => (
+        <a class:list={['pager__link', `pager__link--${dir}`]} href={projectUrl(lang, p.slug)} rel={dir}>
+          <div class="pager__thumb frame">
+            <Picture src={thumb(p)} alt="" formats={['avif', 'webp']} widths={[320, 640]} sizes="(min-width: 48rem) 14rem, 40vw" loading="lazy" />
+          </div>
+          <span class="pager__text">
+            <span class="eyebrow">{dir === 'prev' ? '←' : ''} {label} {dir === 'next' ? '→' : ''}</span>
+            <span class="pager__title">{l(p.title, lang)}</span>
+          </span>
+        </a>
+      ))}
+    </nav>
+  </article>
+  <ContactBand lang={lang} email={site.email} />
+</BaseLayout>
+
+<style>
+  .project__hero { height: min(82svh, 56vw); min-height: 22rem; }
+  .project__hero :global(picture), .project__hero :global(img) { width: 100%; height: 100%; object-fit: cover; }
+  @media (max-width: 47.99rem) { .project__hero { height: auto; aspect-ratio: 4 / 5; } }
+
+  .project__head { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: var(--space-m) var(--gutter); padding-block: var(--space-l) var(--space-2xl); }
+  .project__back, .project__title, .project__summary, .project__meta { grid-column: 1 / -1; }
+  .project__back { justify-self: start; font-size: var(--step--1); margin-bottom: var(--space-m); }
+  .project__title { font-size: var(--step-6); max-width: 14ch; }
+  .project__meta { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-m) var(--gutter); padding-top: var(--space-m); border-top: 1px solid var(--color-line-strong); margin-top: var(--space-m); }
+  .project__meta dt { font-size: 0.72rem; letter-spacing: var(--tracking-caps); text-transform: uppercase; color: var(--color-muted); }
+  .project__meta dd { margin-top: 0.2rem; }
+  .project__meta a { text-decoration-color: var(--color-line-strong); }
+  @media (min-width: 64rem) {
+    .project__title { grid-column: 1 / span 8; }
+    .project__summary { grid-column: 8 / -1; }
+    .project__meta { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  }
+
+  .project__section { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: var(--space-m) var(--gutter); padding-block: var(--space-xl); border-top: 1px solid var(--color-line); }
+  .project__label, .project__section > :not(.project__label) { grid-column: 1 / -1; }
+  .project__label { font-family: var(--font-body); font-size: var(--step--1); font-weight: 500; letter-spacing: var(--tracking-caps); text-transform: uppercase; color: var(--color-muted); display: flex; gap: 0.75rem; }
+  .project__label .index-num { color: var(--color-accent); }
+  .project__section .prose { max-width: 40rem; font-size: var(--step-1); line-height: 1.6; }
+  .project__section .prose--lead { font-family: var(--font-display); font-size: var(--step-2); line-height: 1.35; font-weight: 360; max-width: 44rem; }
+  @media (min-width: 64rem) {
+    .project__label { grid-column: 1 / span 4; position: sticky; top: calc(var(--header-h-compact) + 1.5rem); align-self: start; }
+    .project__section > :not(.project__label) { grid-column: 5 / -1; }
+  }
+
+  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr)); gap: var(--space-l) var(--gutter); }
+  .stats li { display: grid; gap: 0.5rem; padding-top: var(--space-s); border-top: 1px solid var(--color-ink); }
+  .stats__value { font-size: var(--step-5); color: var(--color-accent); white-space: nowrap; }
+  .stats__label { color: var(--color-charcoal); max-width: 18ch; }
+  .stats__note { margin-top: var(--space-m); font-size: var(--step--1); color: var(--color-muted); font-style: italic; }
+
+  .project__gallery { padding-block: var(--space-xl); border-top: 1px solid var(--color-line); display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--space-l); }
+  .project__gallery > .project__label { grid-column: 1 / -1; position: static; }
+
+  .ext-links { display: grid; }
+  .ext-links a { display: grid; grid-template-columns: 1fr auto; align-items: baseline; gap: 0.25rem 1rem; padding-block: var(--space-s); border-bottom: 1px solid var(--color-line); text-decoration: none; }
+  .ext-links__outlet { grid-column: 1; }
+  .ext-links__title { grid-column: 1; font-family: var(--font-display); font-size: var(--step-2); line-height: 1.2; transition: color var(--dur-fast); }
+  .ext-links a :global(.ext-icon) { grid-column: 2; grid-row: 1 / span 2; align-self: center; width: 1rem; height: 1rem; transition: transform var(--dur-med) var(--ease-out); }
+  .ext-links a:hover .ext-links__title { color: var(--color-accent); }
+  .ext-links a:hover :global(.ext-icon) { transform: translate(3px, -3px); }
+
+  .pager { display: grid; grid-template-columns: 1fr 1fr; gap: var(--gutter); padding-block: var(--space-xl); border-top: 1px solid var(--color-line-strong); }
+  .pager__link { display: grid; gap: var(--space-s); text-decoration: none; }
+  .pager__link--next { text-align: right; justify-items: end; }
+  .pager__thumb { width: min(100%, 14rem); aspect-ratio: 4 / 3; }
+  .pager__thumb :global(img) { transition: transform 1s var(--ease-out); }
+  .pager__link:hover .pager__thumb :global(img) { transform: scale(1.05); }
+  .pager__text { display: grid; gap: 0.35rem; }
+  .pager__title { font-family: var(--font-display); font-size: var(--step-2); line-height: 1.15; }
+  .pager__link:hover .pager__title { color: var(--color-accent); }
+</style>

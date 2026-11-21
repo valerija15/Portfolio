@@ -1,0 +1,61 @@
+# PLACEHOLDER PROJECT — fictional client, copy and figures. Replace before launch.
+slug: riga-light
+placeholder: true
+featured: true
+order: 3
+layout: wide
+year: 2024
+category: public-events
+client: Rīgas Gaismas nedēļa
+role:
+  lv: Publisko pasākumu komunikācija
+  en: Public event communication
+title:
+  lv: Gaismas nedēļa pilsētā
+  en: A Week of Light in the City
+summary:
+  lv: Pilsētas mēroga gaismas festivāla komunikācija 120 000 apmeklētājiem.
+  en: Communication for a city-wide light festival welcoming 120,000 visitors.
+cover:
+  type: video
+  src: /video/riga-light-loop.mp4
+  webm: /video/riga-light-loop.webm
+  poster: ../../assets/images/projects/riga-light-cover.jpg
+  alt:
+    lv: Prožektoru gaisma pār skatuvi tumsā
+    en: Spotlight falling across a stage in the dark
+overview:
+  lv: |
+    Septiņu dienu festivāls pārvērta Rīgas centru par atklātu galeriju. Komunikācija aptvēra iedzīvotāju informēšanu, mediju attiecības un drošības vēstījumus.
+  en: |
+    A seven-day festival turned central Riga into an open-air gallery. Communication covered public information, media relations and safety messaging.
+strategy:
+  lv: |
+    Izveidojām vienotu vizuālo un verbālo valodu visiem kanāliem un sadarbojāmies ar pašvaldību, policiju un sabiedrisko transportu.
+  en: |
+    We built one visual and verbal language across all channels and coordinated with the city, police and public transport.
+execution:
+  lv: |
+    Ikdienas preses relīzes, maršrutu kartes divās valodās, tiešraides un sadarbība ar 12 vietējiem satura veidotājiem.
+  en: |
+    Daily press releases, bilingual route maps, live broadcasts and collaboration with 12 local content creators.
+# FICTIONAL FIGURES — replace with verified results
+results:
+  - value: "120 000"
+    label: { lv: apmeklētāji, en: visitors }
+  - value: "94%"
+    label: { lv: pozitīvs mediju tonis, en: positive media sentiment }
+gallery:
+  - type: image
+    src: ../../assets/images/projects/riga-light-1.jpg
+    alt: { lv: Festivāla auditorija, en: Festival audience }
+  - type: image
+    src: ../../assets/images/projects/riga-light-2.jpg
+    alt: { lv: Gaismas instalācija, en: Light installation }
+  - type: image
+    src: ../../assets/images/projects/riga-light-3.jpg
+    alt: { lv: Festivāla abstraktā vizuālā identitāte, en: Abstract festival visual identity }
+links:
+  - title: { lv: Festivāla preses telpa, en: Festival press room }
+    url: https://example.com/placeholder/riga-light-press
+    outlet: Rīgas Gaismas nedēļa

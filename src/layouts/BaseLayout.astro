@@ -1,0 +1,63 @@
+---
+import '@/styles/global.css';
+import Seo from '@/components/Seo.astro';
+import Header from '@/components/Header.astro';
+import Footer from '@/components/Footer.astro';
+import { type Lang, HTML_LANG, useTranslations, l } from '@/i18n';
+import { getSite } from '@/lib/content';
+
+interface Props {
+  lang: Lang;
+  title: string;
+  description: string;
+  image?: string;
+  type?: 'website' | 'article' | 'profile';
+  jsonLd?: Record<string, unknown> | Record<string, unknown>[];
+  noindex?: boolean;
+  alternates?: boolean;
+}
+const props = Astro.props;
+const { lang } = props;
+const t = useTranslations(lang);
+const site = await getSite();
+---
+<!doctype html>
+<html lang={HTML_LANG[lang]} id="top">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light" />
+    <meta name="theme-color" content="#f4f2ec" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="preload" href="/fonts/newsreader-latin-opsz-normal.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/hanken-grotesk-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin />
+    <script is:inline>
+      document.documentElement.classList.add('js');
+    </script>
+    <Seo {...props} image={props.image ?? site.ogImage} />
+    <slot name="head" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">{t('nav.skip')}</a>
+    <Header lang={lang} name={site.name} title={l(site.title, lang)} />
+    <main id="main" tabindex="-1">
+      <slot />
+    </main>
+    <Footer lang={lang} site={site} />
+
+    <script>
+      import '@/scripts/reveal';
+      import '@/scripts/videos';
+      import '@/scripts/lang-memory';
+    </script>
+    <style>
+      .skip-link {
+        position: fixed; left: var(--gutter); top: 0.75rem; z-index: 100;
+        padding: 0.75rem 1.25rem; background: var(--color-ink); color: var(--color-paper);
+        transform: translateY(-200%); transition: transform var(--dur-fast);
+      }
+      .skip-link:focus { transform: none; }
+      main:focus { outline: none; }
+    </style>
+  </body>
+</html>

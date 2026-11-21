@@ -1,0 +1,54 @@
+# PLACEHOLDER PROJECT — fictional client, copy and figures. Replace before launch.
+slug: tilts
+placeholder: true
+featured: false
+order: 7
+layout: standard
+year: 2023
+category: content-creation
+client: Fonds "Tilts"
+role:
+  lv: Satura producente un redaktore
+  en: Content producer and editor
+title:
+  lv: Tilti starp paaudzēm
+  en: Bridges Between Generations
+summary:
+  lv: Dokumentāla satura sērija par mentoriem un viņu audzēkņiem.
+  en: A documentary content series about mentors and their mentees.
+cover:
+  type: image
+  src: ../../assets/images/projects/tilts-cover.jpg
+  alt:
+    lv: Arkas formas klusā dabā rožainos toņos
+    en: Arch shapes in a still life in rose tones
+overview:
+  lv: |
+    Sešu īsfilmu un rakstu sērija, kas parādīja fonda mentoringa programmas cilvēcisko pusi.
+  en: |
+    A series of six short films and articles revealing the human side of the foundation's mentoring programme.
+execution:
+  lv: |
+    Scenāriji, intervijas, rediģēšana un izplatīšana sadarbībā ar diviem nacionāliem medijiem.
+  en: |
+    Scripts, interviews, editing and distribution in partnership with two national media outlets.
+# FICTIONAL FIGURES — replace with verified results
+results:
+  - value: "420 000"
+    label: { lv: skatījumi, en: views }
+  - value: "+70%"
+    label: { lv: mentoru pieteikumi, en: mentor applications }
+gallery:
+  - type: image
+    src: ../../assets/images/projects/tilts-1.jpg
+    alt: { lv: Filmēšanas studija, en: Filming studio }
+  - type: image
+    src: ../../assets/images/projects/tilts-2.jpg
+    alt: { lv: Sērijas vizuālā identitāte, en: Series visual identity }
+  - type: image
+    src: ../../assets/images/projects/tilts-3.jpg
+    alt: { lv: Mentora portrets, en: Portrait of a mentor }
+links:
+  - title: { lv: Sērijas pirmā filma, en: First film in the series }
+    url: https://example.com/placeholder/tilts-film-1
+    outlet: Fonds "Tilts"

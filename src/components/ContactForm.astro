@@ -1,0 +1,223 @@
+---
+/**
+ * Contact form.
+ * - provider/endpoint come from src/content/site/site.yaml (form.*)
+ * - no endpoint => falls back to a prefilled mailto: (never a dead button)
+ * - accessible client-side validation; native validation remains when JS is off
+ */
+import { type Lang, useTranslations } from '@/i18n';
+import { routeUrl } from '@/lib/routes';
+import type { Site } from '@/lib/content';
+
+interface Props { lang: Lang; site: Site }
+const { lang, site } = Astro.props;
+const t = useTranslations(lang);
+const { provider, endpoint } = site.form;
+const mode = provider === 'netlify' ? 'netlify' : endpoint ? 'endpoint' : 'mailto';
+const action = mode === 'netlify' ? routeUrl(lang, 'contact') : mode === 'endpoint' ? endpoint : `mailto:${site.email}`;
+const netlifyAttrs = mode === 'netlify' ? { 'data-netlify': 'true', 'netlify-honeypot': 'company_website' } : {};
+const fields = [
+  { name: 'name', type: 'text', autocomplete: 'name' },
+  { name: 'email', type: 'email', autocomplete: 'email' },
+  { name: 'subject', type: 'text', autocomplete: 'off' },
+] as const;
+const strings = {
+  errors: {
+    name: t('contact.form.errors.name'),
+    email: t('contact.form.errors.email'),
+    subject: t('contact.form.errors.subject'),
+    message: t('contact.form.errors.message'),
+    consent: t('contact.form.errors.consent'),
+  },
+  summary: t('contact.form.errorsSummary'),
+  sending: t('contact.form.sending'),
+  success: t('contact.form.success'),
+  error: t('contact.form.error', { email: site.email }),
+  mailtoOpened: t('contact.form.mailtoOpened', { email: site.email }),
+};
+---
+<form
+  class="cform"
+  name="contact"
+  method="post"
+  action={action}
+  enctype={mode === 'mailto' ? 'text/plain' : undefined}
+  data-contact-form
+  data-mode={mode}
+  data-email={site.email}
+  data-strings={JSON.stringify(strings)}
+  {...netlifyAttrs}
+>
+  {mode === 'netlify' && <input type="hidden" name="form-name" value="contact" />}
+  <input type="hidden" name="_language" value={lang} />
+
+  <p class="cform__summary" role="alert" data-summary hidden></p>
+
+  <div class="cform__grid">
+    {fields.map((f) => (
+      <div class:list={['cform__field', f.name === 'subject' && 'cform__field--full']}>
+        <label for={`cf-${f.name}`}>{t(`contact.form.${f.name}`)} <span class="cform__req" aria-hidden="true">*</span><span class="sr-only">({t('contact.form.required')})</span></label>
+        <input id={`cf-${f.name}`} name={f.name} type={f.type} autocomplete={f.autocomplete} required aria-describedby={`cf-${f.name}-error`} minlength={f.name === 'name' ? 2 : undefined} />
+        <p class="cform__error" id={`cf-${f.name}-error`} data-error-for={f.name}></p>
+      </div>
+    ))}
+    <div class="cform__field cform__field--full">
+      <label for="cf-message">{t('contact.form.message')} <span class="cform__req" aria-hidden="true">*</span><span class="sr-only">({t('contact.form.required')})</span></label>
+      <textarea id="cf-message" name="message" rows="6" required minlength="10" aria-describedby="cf-message-error"></textarea>
+      <p class="cform__error" id="cf-message-error" data-error-for="message"></p>
+    </div>
+  </div>
+
+  <!-- Honeypot: hidden from people, irresistible to bots -->
+  <div class="cform__hp" aria-hidden="true">
+    <label for="cf-company">{t('contact.form.honeypot')}</label>
+    <input id="cf-company" type="text" name="company_website" tabindex="-1" autocomplete="off" />
+  </div>
+
+  <div class="cform__consent">
+    <input id="cf-consent" type="checkbox" name="consent" value="yes" required aria-describedby="cf-consent-error" />
+    <label for="cf-consent">{t('contact.form.consent')} <a href={routeUrl(lang, 'privacy')}>{t('contact.form.consentLink')}</a>. <span class="cform__req" aria-hidden="true">*</span></label>
+    <p class="cform__error" id="cf-consent-error" data-error-for="consent"></p>
+  </div>
+
+  <div class="cform__actions">
+    <button class="btn" type="submit" data-submit>
+      <span data-submit-label>{mode === 'mailto' ? t('contact.form.submitMail') : t('contact.form.submit')}</span>
+      <span class="arrow" aria-hidden="true">→</span>
+    </button>
+    {mode === 'mailto' && <p class="cform__note">{t('contact.form.mailtoNote')}</p>}
+  </div>
+  <p class="cform__status" role="status" aria-live="polite" data-status></p>
+</form>
+
+<script>
+  type Strings = { errors: Record<string, string>; summary: string; sending: string; success: string; error: string; mailtoOpened: string };
+  const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
+  document.querySelectorAll<HTMLFormElement>('[data-contact-form]').forEach((form) => {
+    form.noValidate = true; // switch from native bubbles to accessible inline messages
+    const s: Strings = JSON.parse(form.dataset.strings!);
+    const mode = form.dataset.mode!;
+    const summary = form.querySelector<HTMLElement>('[data-summary]')!;
+    const status = form.querySelector<HTMLElement>('[data-status]')!;
+    const submit = form.querySelector<HTMLButtonElement>('[data-submit]')!;
+    const field = (name: string) => form.elements.namedItem(name) as HTMLInputElement | HTMLTextAreaElement;
+
+    const rules: Record<string, (el: HTMLInputElement | HTMLTextAreaElement) => boolean> = {
+      name: (el) => el.value.trim().length >= 2,
+      email: (el) => EMAIL.test(el.value.trim()),
+      subject: (el) => el.value.trim().length >= 2,
+      message: (el) => el.value.trim().length >= 10,
+      consent: (el) => (el as HTMLInputElement).checked,
+    };
+
+    const validateField = (name: string): boolean => {
+      const el = field(name);
+      const ok = rules[name]!(el);
+      const msg = form.querySelector<HTMLElement>(`[data-error-for="${name}"]`)!;
+      el.setAttribute('aria-invalid', String(!ok));
+      msg.textContent = ok ? '' : s.errors[name]!;
+      return ok;
+    };
+
+    // Re-validate a field once the user has interacted with it and it was flagged.
+    Object.keys(rules).forEach((name) => {
+      const el = field(name);
+      const evt = el.type === 'checkbox' ? 'change' : 'input';
+      el.addEventListener(evt, () => el.getAttribute('aria-invalid') === 'true' && validateField(name));
+      el.addEventListener('blur', () => el.value && validateField(name));
+    });
+
+    const setBusy = (busy: boolean) => {
+      submit.disabled = busy;
+      submit.setAttribute('aria-disabled', String(busy));
+      if (busy) status.textContent = s.sending;
+    };
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      status.textContent = '';
+      status.className = 'cform__status';
+      const invalid = Object.keys(rules).filter((name) => !validateField(name));
+      if (invalid.length) {
+        summary.hidden = false;
+        summary.textContent = s.summary.replace('{n}', String(invalid.length));
+        field(invalid[0]!).focus();
+        return;
+      }
+      summary.hidden = true;
+
+      // Spam trap: silently "succeed" for bots.
+      if ((field('company_website').value ?? '').trim() !== '') {
+        form.reset();
+        status.textContent = s.success;
+        return;
+      }
+
+      if (mode === 'mailto') {
+        const subject = field('subject').value.trim();
+        const body = `${field('message').value.trim()}\n\n— ${field('name').value.trim()} <${field('email').value.trim()}>`;
+        window.location.href = `mailto:${form.dataset.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+        status.textContent = s.mailtoOpened;
+        return;
+      }
+
+      setBusy(true);
+      try {
+        const data = new FormData(form);
+        const res =
+          mode === 'netlify'
+            ? await fetch(form.action, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: new URLSearchParams(data as unknown as Record<string, string>).toString(),
+              })
+            : await fetch(form.action, { method: 'POST', body: data, headers: { Accept: 'application/json' } });
+        if (!res.ok) throw new Error(String(res.status));
+        form.reset();
+        status.textContent = s.success;
+        status.classList.add('is-success');
+      } catch {
+        status.textContent = s.error;
+        status.classList.add('is-error');
+      } finally {
+        submit.disabled = false;
+        submit.setAttribute('aria-disabled', 'false');
+        status.setAttribute('tabindex', '-1');
+        status.focus();
+      }
+    });
+  });
+</script>
+
+<style>
+  .cform { display: grid; gap: var(--space-m); }
+  .cform__grid { display: grid; gap: var(--space-m) var(--gutter); }
+  @media (min-width: 48rem) { .cform__grid { grid-template-columns: 1fr 1fr; } .cform__field--full { grid-column: 1 / -1; } }
+  .cform__field { display: grid; gap: 0.4rem; }
+  .cform label { font-size: var(--step--1); font-weight: 500; letter-spacing: 0.02em; }
+  .cform__req { color: var(--color-accent); }
+  .cform input:not([type='checkbox']), .cform textarea {
+    width: 100%; padding: 0.8rem 0; min-height: 3rem;
+    background: transparent; border: 0; border-bottom: 1px solid var(--color-line-strong); border-radius: 0;
+    font-size: var(--step-1); transition: border-color var(--dur-fast);
+  }
+  .cform textarea { resize: vertical; min-height: 9rem; line-height: 1.5; }
+  .cform input:hover, .cform textarea:hover { border-bottom-color: var(--color-ink); }
+  .cform input:focus-visible, .cform textarea:focus-visible { outline: none; border-bottom: 2px solid var(--color-accent); box-shadow: 0 1px 0 0 var(--color-accent); }
+  .cform [aria-invalid='true'] { border-bottom-color: var(--color-error) !important; }
+  .cform__error { min-height: 0; font-size: var(--step--1); color: var(--color-error); }
+  .cform__error:empty { display: none; }
+  .cform__consent { display: grid; grid-template-columns: auto 1fr; gap: 0.25rem 0.75rem; align-items: start; }
+  .cform__consent input { width: 1.25rem; height: 1.25rem; margin-top: 0.15rem; accent-color: var(--color-ink); }
+  .cform__consent label { font-weight: 400; color: var(--color-charcoal); }
+  .cform__consent .cform__error { grid-column: 2; }
+  .cform__actions { display: flex; flex-wrap: wrap; gap: var(--space-s) var(--space-m); align-items: center; }
+  .cform__note { font-size: var(--step--1); color: var(--color-muted); max-width: 32ch; }
+  .cform__summary { padding: 0.85rem 1rem; border-left: 3px solid var(--color-error); background: rgb(164 38 27 / 0.06); color: var(--color-error); font-weight: 500; }
+  .cform__status { font-weight: 500; }
+  .cform__status:empty { display: none; }
+  .cform__status.is-success { color: var(--color-success); }
+  .cform__status.is-error { color: var(--color-error); }
+  .cform__hp { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
+</style>

@@ -1,0 +1,64 @@
+---
+import { type Lang, useTranslations, l } from '@/i18n';
+import { NAV, routeUrl } from '@/lib/routes';
+import type { Site } from '@/lib/content';
+import LangSwitch from './LangSwitch.astro';
+import ExtIcon from './ExtIcon.astro';
+
+interface Props { lang: Lang; site: Site }
+const { lang, site } = Astro.props;
+const t = useTranslations(lang);
+const year = new Date().getFullYear();
+---
+<footer class="site-footer on-dark">
+  <div class="container">
+    <div class="site-footer__top">
+      <div class="site-footer__id">
+        <p class="site-footer__name display">{site.name}</p>
+        <p class="eyebrow">{l(site.title, lang)} · {l(site.location, lang)}</p>
+      </div>
+      <nav aria-label={t('nav.label')} class="site-footer__nav">
+        <ul role="list">
+          {NAV.map((key) => <li><a href={routeUrl(lang, key)}>{t(`nav.${key}`)}</a></li>)}
+        </ul>
+      </nav>
+      <ul role="list" class="site-footer__contact">
+        <li><a class="link" href={`mailto:${site.email}`}>{site.email}</a></li>
+        <li>
+          <a class="link" href={site.socials.linkedin} target="_blank" rel="noopener noreferrer">
+            LinkedIn <ExtIcon /><span class="sr-only">{t('common.newTab')}</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+    <div class="site-footer__bottom">
+      <p>© <span data-year>{year}</span> {site.name}. {t('footer.rights')}</p>
+      <a href={routeUrl(lang, 'privacy')}>{t('footer.privacy')}</a>
+      <LangSwitch lang={lang} />
+      <a href="#top" class="site-footer__top-link">{t('footer.backToTop')} <span aria-hidden="true">↑</span></a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Keep the copyright year current even on long-lived static builds.
+  document.querySelectorAll('[data-year]').forEach((el) => (el.textContent = String(new Date().getFullYear())));
+</script>
+
+<style>
+  .site-footer { padding-block: var(--space-xl) var(--space-m); }
+  .site-footer__top { display: grid; gap: var(--space-l); grid-template-columns: 1fr; padding-bottom: var(--space-xl); }
+  @media (min-width: 48rem) { .site-footer__top { grid-template-columns: 2fr 1fr 1fr; } }
+  .site-footer__name { font-size: var(--step-4); margin-bottom: var(--space-2xs); }
+  .site-footer__nav ul, .site-footer__contact { display: grid; gap: 0.4rem; align-content: start; }
+  .site-footer__nav a { text-decoration: none; display: inline-block; padding-block: 0.15rem; }
+  .site-footer__nav a:hover { color: var(--color-accent-soft); }
+  .site-footer__bottom {
+    display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-xs) var(--space-l);
+    padding-top: var(--space-m); border-top: 1px solid rgb(244 242 236 / 0.18);
+    font-size: var(--step--1); color: var(--color-on-dark-muted);
+  }
+  .site-footer__bottom p { margin-right: auto; }
+  .site-footer__bottom a { color: var(--color-on-dark); text-underline-offset: 0.3em; }
+  .site-footer__top-link { text-decoration: none; }
+</style>

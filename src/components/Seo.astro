@@ -1,0 +1,47 @@
+---
+import { LOCALES, INTL_LOCALE, type Lang, useTranslations } from '@/i18n';
+import { switchLocalePath } from '@/lib/routes';
+
+interface Props {
+  lang: Lang;
+  title: string;
+  description: string;
+  image?: string;
+  type?: 'website' | 'article' | 'profile';
+  jsonLd?: Record<string, unknown> | Record<string, unknown>[];
+  noindex?: boolean;
+  /** Set false on pages without a counterpart in the other locale. */
+  alternates?: boolean;
+}
+const { lang, title, description, image = '/og/og-default.jpg', type = 'website', jsonLd, noindex = false, alternates = true } = Astro.props;
+const t = useTranslations(lang);
+const site = Astro.site!;
+const canonical = new URL(Astro.url.pathname, site).href;
+const ogImage = new URL(image, site).href;
+const siteName = t('meta.siteName');
+const fullTitle = title === siteName || title.includes('Anna Bērziņa') ? title : `${title} — Anna Bērziņa`;
+---
+<title>{fullTitle}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonical} />
+{noindex && <meta name="robots" content="noindex" />}
+{alternates && LOCALES.map((code) => (
+  <link rel="alternate" hreflang={INTL_LOCALE[code]} href={new URL(switchLocalePath(Astro.url.pathname, code), site).href} />
+))}
+{alternates && <link rel="alternate" hreflang="x-default" href={new URL(switchLocalePath(Astro.url.pathname, 'lv'), site).href} />}
+
+<meta property="og:type" content={type} />
+<meta property="og:site_name" content={siteName} />
+<meta property="og:title" content={fullTitle} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonical} />
+<meta property="og:image" content={ogImage} />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:locale" content={t('meta.locale')} />
+{LOCALES.filter((c) => c !== lang).map((c) => <meta property="og:locale:alternate" content={c === 'lv' ? 'lv_LV' : 'en_GB'} />)}
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={fullTitle} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={ogImage} />
+{jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}

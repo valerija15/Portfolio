@@ -1,0 +1,7 @@
+# PLACEHOLDER — fictional outlet and publication.
+type: press-release
+title: { lv: "Aqua Rīga: ūdens kvalitāte pilnībā atjaunota", en: "Aqua Rīga: water quality fully restored" }
+date: 2022-08-19
+url: https://example.com/placeholder/aqua-release
+language: lv
+outlet: { name: Aqua Rīga, wordmark: sans }

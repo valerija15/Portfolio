@@ -1,0 +1,47 @@
+# PLACEHOLDER — fictional organisations and roles. Replace before launch.
+# end: null => "present"
+- id: studio-aurora
+  order: 1
+  organisation: Aurora Komunikācijas Studija
+  position: { lv: Vecākā sabiedrisko attiecību konsultante, en: Senior PR Consultant }
+  location: { lv: Rīga, en: Riga }
+  start: "2022-03"
+  end: null
+  description:
+    lv: Vadu PR un mediju attiecību projektus kultūras, tehnoloģiju un publiskā sektora klientiem.
+    en: I lead PR and media relations projects for clients in culture, technology and the public sector.
+  achievements:
+    - { lv: Vadīju 14 kampaņas ar kopējo auditoriju virs 12 miljoniem., en: Led 14 campaigns with a combined audience of over 12 million. }
+    - { lv: Izveidoju aģentūras krīzes komunikācijas metodiku., en: Built the agency's crisis communication methodology. }
+- id: baltic-forum
+  order: 2
+  organisation: Baltic Futures Forum
+  position: { lv: Komunikācijas vadītāja, en: Head of Communications }
+  location: { lv: Rīga / Viļņa, en: Riga / Vilnius }
+  start: "2019-09"
+  end: "2022-02"
+  description:
+    lv: Atbildēju par reģionālās konferences zīmolu, mediju attiecībām un digitālo komunikāciju.
+    en: Responsible for the regional conference's brand, media relations and digital communication.
+  achievements:
+    - { lv: Trīs gadu laikā divkāršoju akreditēto žurnālistu skaitu., en: Doubled the number of accredited journalists within three years. }
+- id: city-culture
+  order: 3
+  organisation: Pilsētas Kultūras pārvalde
+  position: { lv: Sabiedrisko attiecību speciāliste, en: Public Relations Specialist }
+  location: { lv: Rīga, en: Riga }
+  start: "2016-05"
+  end: "2019-08"
+  description:
+    lv: Komunikācija pilsētas kultūras pasākumiem, festivāliem un publiskām iniciatīvām.
+    en: Communication for city cultural events, festivals and public initiatives.
+- id: daily-news
+  order: 4
+  organisation: Rīta Ziņas
+  position: { lv: Žurnāliste, kultūras nodaļa, en: Journalist, culture desk }
+  location: { lv: Rīga, en: Riga }
+  start: "2013-09"
+  end: "2016-04"
+  description:
+    lv: Rakstīju par kultūru un sabiedrību — pieredze, kas ļauj saprast mediju darbu no iekšpuses.
+    en: Wrote about culture and society — experience that lets me understand newsrooms from the inside.

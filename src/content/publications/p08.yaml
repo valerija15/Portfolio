@@ -1,0 +1,9 @@
+# PLACEHOLDER — fictional outlet and publication.
+type: video-interview
+title: { lv: "Kultūras nams Aurora: atklāšanas vakars", en: "Aurora cultural centre: opening night" }
+date: 2023-10-07
+url: https://example.com/placeholder/aurora-opening-tv
+language: lv
+outlet: { name: Kultūras Avīze, wordmark: serif }
+thumbnail: ../../assets/images/media/interview-2.jpg
+highlight: true

@@ -1,0 +1,27 @@
+---
+import { type Lang, useTranslations } from '@/i18n';
+import { routeUrl } from '@/lib/routes';
+interface Props { lang: Lang; email: string }
+const { lang, email } = Astro.props;
+const t = useTranslations(lang);
+---
+<section class="contact-band on-dark" aria-labelledby="contact-band-title">
+  <div class="container contact-band__inner">
+    <p class="eyebrow" data-reveal>{t('nav.contact')}</p>
+    <h2 id="contact-band-title" class="display contact-band__title" data-reveal style="--reveal-delay:1">{t('cta.title')}</h2>
+    <div class="contact-band__row" data-reveal style="--reveal-delay:2">
+      <p class="measure">{t('cta.text')}</p>
+      <div class="contact-band__actions">
+        <a class="btn" href={routeUrl(lang, 'contact')}>{t('cta.button')} <span class="arrow" aria-hidden="true">→</span></a>
+        <a class="link" href={`mailto:${email}`}>{email}</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .contact-band { padding-block: var(--space-2xl); }
+  .contact-band__title { font-size: var(--step-6); max-width: 14ch; margin-block: var(--space-s) var(--space-l); }
+  .contact-band__row { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: end; gap: var(--space-l); padding-top: var(--space-l); border-top: 1px solid rgb(244 242 236 / 0.2); }
+  .contact-band__actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-m); }
+</style>

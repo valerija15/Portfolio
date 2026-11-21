@@ -1,0 +1,97 @@
+---
+import { Picture } from 'astro:assets';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHeader from '@/components/PageHeader.astro';
+import FilterBar from '@/components/FilterBar.astro';
+import Wordmark from '@/components/Wordmark.astro';
+import VideoFacade from '@/components/VideoFacade.astro';
+import ExtIcon from '@/components/ExtIcon.astro';
+import ContactBand from '@/components/ContactBand.astro';
+import { type Lang, langPaths, useTranslations, l } from '@/i18n';
+import { formatDate, isoDate } from '@/lib/format';
+import { getSite, getPublications } from '@/lib/content';
+import { PUBLICATION_TYPES } from '@/content.config';
+
+export const getStaticPaths = langPaths;
+const lang = Astro.params.lang as Lang;
+const t = useTranslations(lang);
+const site = await getSite();
+const items = await getPublications();
+const used = new Set(items.map((i) => i.type));
+const options = PUBLICATION_TYPES.filter((ty) => used.has(ty)).map((ty) => ({ value: ty, label: t(`media.types.${ty}`) }));
+---
+<BaseLayout lang={lang} title={t('meta.media.title')} description={t('meta.media.description')}>
+  <PageHeader eyebrow={`(${String(items.length).padStart(2, '0')})`} title={t('media.title')} intro={t('media.intro')} />
+
+  <section class="container media-list" aria-label={t('media.title')}>
+    <FilterBar
+      label={t('media.filterLabel')}
+      allLabel={t('media.all')}
+      options={options}
+      target="#media-items"
+      itemAttr="type"
+      param="type"
+      countOne={t('media.countOne')}
+      countMany={t('media.count')}
+      emptyText={t('media.empty')}
+    />
+    <ol role="list" id="media-items" class="pubs">
+      {items.map((item) => {
+        const title = l(item.title, lang);
+        return (
+          <li class:list={['pub', item.video && item.thumbnail && 'pub--video']} data-type={item.type} data-reveal>
+            <div class="pub__meta">
+              <time datetime={isoDate(item.date)} class="index-num">{formatDate(item.date, lang)}</time>
+              <span class="pub__type eyebrow eyebrow--accent">{t(`media.types.${item.type}`)}</span>
+            </div>
+            <div class="pub__outlet"><Wordmark name={item.outlet.name} logo={item.outlet.logo} style={item.outlet.wordmark} /></div>
+            <div class="pub__main">
+              <h2 class="pub__title">
+                <a href={item.url} target="_blank" rel="noopener noreferrer">
+                  {title}
+                  <ExtIcon />
+                  <span class="sr-only">— {item.outlet.name} {t('common.newTab')}</span>
+                </a>
+              </h2>
+              {item.language !== lang && <p class="pub__lang">{t('media.languageHint', { lang: t(`langNames.${item.language}`) })}</p>}
+              {item.video && item.thumbnail && (
+                <div class="pub__video">
+                  <VideoFacade lang={lang} provider={item.video.provider} id={item.video.id} title={title} poster={item.thumbnail} sizes="(min-width: 64rem) 40vw, 100vw" />
+                </div>
+              )}
+              {!item.video && item.thumbnail && (
+                <div class="pub__thumb frame"><Picture src={item.thumbnail} alt="" formats={['avif', 'webp']} widths={[400, 800]} sizes="20rem" loading="lazy" /></div>
+              )}
+            </div>
+          </li>
+        );
+      })}
+    </ol>
+  </section>
+
+  <ContactBand lang={lang} email={site.email} />
+</BaseLayout>
+
+<style>
+  .media-list { padding-bottom: var(--space-2xl); }
+  .pubs { border-top: 1px solid var(--color-line-strong); }
+  .pub {
+    display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: var(--space-xs) var(--gutter);
+    padding-block: var(--space-l); border-bottom: 1px solid var(--color-line);
+  }
+  .pub__meta, .pub__outlet, .pub__main { grid-column: 1 / -1; }
+  .pub__meta { display: flex; flex-wrap: wrap; gap: 0.25rem 1rem; align-items: baseline; font-size: var(--step--1); color: var(--color-muted); }
+  .pub__outlet { font-size: var(--step-1); color: var(--color-charcoal); }
+  .pub__title { font-size: var(--step-3); line-height: 1.12; }
+  .pub__title a { text-decoration: none; background: linear-gradient(currentColor, currentColor) 0 100% / 0% 1px no-repeat; transition: background-size var(--dur-med) var(--ease-out), color var(--dur-fast); }
+  .pub__title a:hover { color: var(--color-accent); background-size: 100% 1px; }
+  .pub__title :global(.ext-icon) { display: inline-block; margin-left: 0.3em; width: 0.45em; height: 0.45em; vertical-align: 0.35em; }
+  .pub__lang { margin-top: 0.4rem; font-size: var(--step--1); color: var(--color-muted); font-style: italic; }
+  .pub__video { margin-top: var(--space-m); max-width: 44rem; }
+  .pub__thumb { margin-top: var(--space-m); width: 20rem; aspect-ratio: 16 / 9; }
+  @media (min-width: 64rem) {
+    .pub__meta { grid-column: 1 / span 3; flex-direction: column; padding-top: 0.5rem; }
+    .pub__outlet { grid-column: 4 / span 2; padding-top: 0.45rem; }
+    .pub__main { grid-column: 6 / -1; }
+  }
+</style>

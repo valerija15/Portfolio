@@ -1,0 +1,8 @@
+# PLACEHOLDER — fictional outlet and publication.
+type: media-appearance
+title: { lv: "Rīta studija: pilsētas festivāli un komunikācija", en: "Morning studio: city festivals and communication" }
+date: 2024-09-18
+url: https://example.com/placeholder/radio-morning
+language: lv
+outlet: { name: Radio Rīts, wordmark: mono }
+highlight: true

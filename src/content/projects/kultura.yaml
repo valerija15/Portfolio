@@ -1,0 +1,72 @@
+# PLACEHOLDER PROJECT — fictional client, copy and figures. Replace before launch.
+slug: kultura
+placeholder: true
+featured: true
+order: 5
+layout: large
+year: 2023
+category: media-relations
+client: Kultūras nams "Aurora"
+role:
+  lv: Mediju attiecību vadītāja
+  en: Media relations lead
+title:
+  lv: Aurora atver durvis
+  en: Aurora Opens Its Doors
+summary:
+  lv: Mediju attiecības vēsturiska kultūras nama atjaunošanai un atklāšanai.
+  en: Media relations for the restoration and reopening of a historic cultural centre.
+cover:
+  type: image
+  src: ../../assets/images/projects/kultura-cover.jpg
+  alt:
+    lv: Laikrakstu lapas ar rakstiem par atklāšanu
+    en: Newspaper pages featuring the reopening
+overview:
+  lv: |
+    Pēc piecu gadu restaurācijas kultūras nams "Aurora" atkal vēra durvis. Mans uzdevums bija nodrošināt, lai atklāšana kļūst par nacionāla mēroga ziņu.
+  en: |
+    After five years of restoration, the "Aurora" cultural centre reopened. My task was to make the opening a national news story.
+challenge:
+  lv: |
+    Restaurācija bija kavējusies un pārsniegusi budžetu — mediji jau bija izveidojuši kritisku naratīvu.
+  en: |
+    The restoration had been delayed and over budget — the media already had a critical narrative.
+strategy:
+  lv: |
+    Atklātība kā stratēģija: piedāvājām žurnālistiem piekļuvi būvlaukumam, restauratoriem un godīgām atbildēm par kavējumiem.
+  en: |
+    Openness as strategy: we offered journalists access to the site, the restorers and honest answers about the delays.
+execution:
+  lv: |
+    Sešas preses ekskursijas, restauratoru dienasgrāmatu sērija un ekskluzīva TV reportāža atklāšanas vakarā.
+  en: |
+    Six press tours, a restorers' diary series and an exclusive TV report on opening night.
+# FICTIONAL FIGURES — replace with verified results
+results:
+  - value: "86"
+    label: { lv: publikācijas, en: publications }
+  - value: "3×"
+    label: { lv: vairāk pozitīvu publikāciju, en: more positive coverage }
+  - value: "1."
+    label: { lv: vieta ziņu ēterā atklāšanas dienā, en: lead news story on opening day }
+gallery:
+  - type: image
+    src: ../../assets/images/projects/kultura-1.jpg
+    alt: { lv: Restaurēta zāle, en: The restored hall }
+  - type: image
+    src: ../../assets/images/projects/kultura-2.jpg
+    alt: { lv: Atklāšanas auditorija, en: Opening night audience }
+  - type: image
+    src: ../../assets/images/projects/kultura-3.jpg
+    alt: { lv: TV intervijas studija, en: TV interview studio }
+  - type: image
+    src: ../../assets/images/projects/kultura-4.jpg
+    alt: { lv: Arhitektūras detaļa, en: Architectural detail }
+links:
+  - title: { lv: "Aurora atgriežas", en: "Aurora returns" }
+    url: https://example.com/placeholder/aurora-returns
+    outlet: Kultūras Avīze
+  - title: { lv: TV reportāža, en: TV report }
+    url: https://example.com/placeholder/aurora-tv
+    outlet: Ziņu Kanāls 7

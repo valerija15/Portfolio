@@ -1,0 +1,8 @@
+# PLACEHOLDER — fictional outlet and publication.
+type: article
+title: { lv: "Kāpēc žurnālisti neatver jūsu preses relīzi", en: "Why journalists don't open your press release" }
+date: 2024-02-14
+url: https://example.com/placeholder/komunikacija-today
+language: en
+outlet: { name: Communication Today, wordmark: condensed }
+highlight: true

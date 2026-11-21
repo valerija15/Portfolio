@@ -1,0 +1,28 @@
+# PLACEHOLDER — FICTIONAL quotes and people. Replace with real, approved testimonials.
+- id: t1
+  order: 1
+  fictional: true
+  quote:
+    lv: Anna spēj sarežģītu situāciju pārvērst skaidrā stāstā — un izdarīt to mierīgi, kad visi citi steidzas.
+    en: Anna turns a complicated situation into a clear story — and does it calmly while everyone else is rushing.
+  name: Marta Ozola (fiktīvs vārds)
+  role: { lv: Valdes priekšsēdētāja, en: Chair of the Board }
+  organisation: Zaļā Osta
+- id: t2
+  order: 2
+  fictional: true
+  quote:
+    lv: Labākā sadarbība ar PR speciālistu, kāda man bijusi. Precīza informācija, cieņa pret žurnālista laiku.
+    en: The best collaboration I have had with a PR professional. Accurate information and real respect for a journalist's time.
+  name: Jānis Kalniņš (fiktīvs vārds)
+  role: { lv: Kultūras redaktors, en: Culture Editor }
+  organisation: Kultūras Avīze
+- id: t3
+  order: 3
+  fictional: true
+  quote:
+    lv: Viņa domā stratēģiski, bet nekad neaizmirst par cilvēkiem, kas ir katra stāsta centrā.
+    en: She thinks strategically but never forgets the people at the heart of every story.
+  name: Elīna Liepa (fiktīvs vārds)
+  role: { lv: Izpilddirektore, en: Executive Director }
+  organisation: Fonds "Tilts"

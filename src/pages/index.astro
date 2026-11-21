@@ -1,0 +1,33 @@
+---
+/**
+ * Bare "/" route. Static hosts cannot negotiate, so:
+ * - JS: redirect to the last language chosen (localStorage) or Latvian (default)
+ * - no JS: meta refresh to /lv/
+ */
+const target = '/lv/';
+---
+<!doctype html>
+<html lang="lv">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Anna Bērziņa</title>
+    <meta name="robots" content="noindex" />
+    <link rel="canonical" href={new URL(target, Astro.site).href} />
+    <link rel="alternate" hreflang="lv-LV" href={new URL('/lv/', Astro.site).href} />
+    <link rel="alternate" hreflang="en-GB" href={new URL('/en/', Astro.site).href} />
+    <link rel="alternate" hreflang="x-default" href={new URL('/lv/', Astro.site).href} />
+    <script is:inline>
+      (function () {
+        var lang = 'lv';
+        try { var s = localStorage.getItem('preferred-lang'); if (s === 'en' || s === 'lv') lang = s; } catch (e) {}
+        location.replace('/' + lang + '/' + location.search + location.hash);
+      })();
+    </script>
+    <noscript><meta http-equiv="refresh" content="0; url=/lv/" /></noscript>
+    <style>body{font-family:Georgia,serif;background:#f4f2ec;color:#141413;padding:2rem}</style>
+  </head>
+  <body>
+    <p><a href="/lv/">Latviešu</a> · <a href="/en/">English</a></p>
+  </body>
+</html>

@@ -1,0 +1,167 @@
+---
+import { type Lang, useTranslations } from '@/i18n';
+import { NAV, routeUrl, isActive } from '@/lib/routes';
+import { pad2 } from '@/lib/format';
+import LangSwitch from './LangSwitch.astro';
+
+interface Props { lang: Lang; name: string; title: string }
+const { lang, name, title } = Astro.props;
+const t = useTranslations(lang);
+const path = Astro.url.pathname;
+---
+<div class="header-sentinel" aria-hidden="true"></div>
+<header class="site-header" data-header>
+  <div class="site-header__inner container">
+    <a class="brand" href={routeUrl(lang, 'home')}>
+      <span class="brand__name">{name}</span>
+      <span class="brand__title">{title}</span>
+    </a>
+
+    <nav class="primary-nav" aria-label={t('nav.label')}>
+      <ul role="list">
+        {NAV.filter((k) => k !== 'home').map((key) => (
+          <li>
+            <a href={routeUrl(lang, key)} aria-current={isActive(path, lang, key) ? 'page' : undefined}>{t(`nav.${key}`)}</a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+
+    <LangSwitch lang={lang} class="header-lang" />
+
+    <button class="menu-toggle" type="button" aria-haspopup="dialog" aria-controls="mobile-menu" aria-expanded="false" data-menu-open>
+      <span class="menu-toggle__label">{t('nav.menu')}</span>
+      <span class="menu-toggle__icon" aria-hidden="true"><span></span><span></span></span>
+      <span class="sr-only">{t('nav.openMenu')}</span>
+    </button>
+  </div>
+</header>
+
+<dialog id="mobile-menu" class="mobile-menu on-dark" aria-label={t('nav.menu')} data-menu>
+  <div class="mobile-menu__top container">
+    <span class="brand__name">{name}</span>
+    <button type="button" class="mobile-menu__close" data-menu-close>
+      {t('nav.closeMenu')}
+      <svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false"><path d="M2 2l12 12M14 2 2 14" stroke="currentColor" stroke-width="1.4" /></svg>
+    </button>
+  </div>
+  <nav class="mobile-menu__nav container" aria-label={t('nav.label')}>
+    <ol role="list">
+      {NAV.map((key, i) => (
+        <li style={`--i:${i}`}>
+          <a href={routeUrl(lang, key)} aria-current={isActive(path, lang, key) ? 'page' : undefined}>
+            <span class="mobile-menu__num index-num" aria-hidden="true">{pad2(i + 1)}</span>
+            {t(`nav.${key}`)}
+          </a>
+        </li>
+      ))}
+    </ol>
+  </nav>
+  <div class="mobile-menu__foot container">
+    <LangSwitch lang={lang} />
+  </div>
+</dialog>
+
+<script>
+  // Compact header on scroll
+  const header = document.querySelector<HTMLElement>('[data-header]');
+  const sentinel = document.querySelector('.header-sentinel');
+  if (header && sentinel && 'IntersectionObserver' in window) {
+    new IntersectionObserver(([entry]) => header.classList.toggle('is-compact', !entry!.isIntersecting)).observe(sentinel);
+  }
+
+  // Mobile menu: native modal <dialog> traps focus, makes the page inert and closes on Esc.
+  const dialog = document.querySelector<HTMLDialogElement>('[data-menu]');
+  const openBtn = document.querySelector<HTMLButtonElement>('[data-menu-open]');
+  const closeBtn = document.querySelector<HTMLButtonElement>('[data-menu-close]');
+  if (dialog && openBtn && closeBtn) {
+    openBtn.addEventListener('click', () => {
+      dialog.showModal();
+      openBtn.setAttribute('aria-expanded', 'true');
+      document.documentElement.classList.add('menu-open');
+      (dialog.querySelector<HTMLElement>('a[aria-current="page"]') ?? closeBtn).focus();
+    });
+    closeBtn.addEventListener('click', () => dialog.close());
+    dialog.addEventListener('close', () => {
+      openBtn.setAttribute('aria-expanded', 'false');
+      document.documentElement.classList.remove('menu-open');
+      openBtn.focus();
+    });
+    // Close on wide viewports
+    matchMedia('(min-width: 64rem)').addEventListener('change', (e) => e.matches && dialog.open && dialog.close());
+  }
+</script>
+
+<style>
+  .header-sentinel { position: absolute; top: 0; height: 24px; width: 1px; }
+  .site-header {
+    position: sticky; top: 0; z-index: 50;
+    background: rgb(244 242 236 / 0);
+    transition: background var(--dur-med), border-color var(--dur-med);
+    border-bottom: 1px solid transparent;
+  }
+  .site-header.is-compact { background: rgb(244 242 236 / 0.92); border-bottom-color: var(--color-line); }
+  @supports (backdrop-filter: blur(1px)) {
+    .site-header.is-compact { background: rgb(244 242 236 / 0.8); backdrop-filter: blur(14px) saturate(1.2); }
+  }
+  .site-header__inner {
+    display: flex; align-items: center; gap: var(--space-m);
+    min-height: var(--header-h);
+    transition: min-height var(--dur-med) var(--ease-out);
+  }
+  .is-compact .site-header__inner { min-height: var(--header-h-compact); }
+
+  .brand { display: flex; flex-direction: column; text-decoration: none; line-height: 1.1; margin-right: auto; }
+  .brand__name { font-family: var(--font-display); font-size: var(--step-1); font-weight: 420; letter-spacing: -0.01em; }
+  .brand__title { font-size: 0.72rem; letter-spacing: var(--tracking-caps); text-transform: uppercase; color: var(--color-muted); transition: opacity var(--dur-med), max-height var(--dur-med); max-height: 2em; overflow: hidden; }
+  .is-compact .brand__title { opacity: 0; max-height: 0; }
+
+  .primary-nav ul { display: flex; gap: clamp(1rem, 2vw, 2.25rem); }
+  .primary-nav a { position: relative; display: inline-block; padding-block: 0.5rem; font-size: 0.95rem; font-weight: 450; text-decoration: none; }
+  .primary-nav a::after {
+    content: ''; position: absolute; left: 0; right: 0; bottom: 0.3rem; height: 1px; background: currentColor;
+    transform: scaleX(0); transform-origin: right; transition: transform var(--dur-med) var(--ease-out);
+  }
+  .primary-nav a:hover::after, .primary-nav a[aria-current='page']::after { transform: scaleX(1); transform-origin: left; }
+  .primary-nav a[aria-current='page'] { color: var(--color-accent); }
+
+  :global(.header-lang) { padding-left: var(--space-s); border-left: 1px solid var(--color-line); }
+  @media (max-width: 63.99rem) { :global(.header-lang) { border-left: 0; padding-left: 0; } }
+
+  .menu-toggle { display: none; align-items: center; gap: 0.75rem; min-height: 2.75rem; padding-inline: 0.25rem; font-size: var(--step--1); letter-spacing: var(--tracking-caps); text-transform: uppercase; font-weight: 500; }
+  .menu-toggle__icon { display: grid; gap: 5px; width: 22px; }
+  .menu-toggle__icon span { display: block; height: 1.5px; background: currentColor; }
+  .menu-toggle__icon span:last-child { width: 60%; justify-self: end; }
+
+  @media (max-width: 63.99rem) {
+    .primary-nav { display: none; }
+    .menu-toggle { display: inline-flex; }
+  }
+
+  /* Full-screen overlay menu */
+  .mobile-menu {
+    position: fixed; inset: 0; width: 100%; height: 100%; max-width: none; max-height: none;
+    margin: 0; padding: 0; border: 0;
+    display: none; flex-direction: column; justify-content: space-between;
+    overflow-y: auto;
+  }
+  .mobile-menu[open] { display: flex; }
+  .mobile-menu::backdrop { background: var(--color-charcoal); }
+  .mobile-menu__top { display: flex; align-items: center; justify-content: space-between; min-height: var(--header-h); }
+  .mobile-menu__close { display: inline-flex; align-items: center; gap: 0.75rem; min-height: 2.75rem; font-size: var(--step--1); letter-spacing: var(--tracking-caps); text-transform: uppercase; }
+  .mobile-menu__nav ol { display: grid; gap: 0.1rem; }
+  .mobile-menu__nav a {
+    display: flex; align-items: baseline; gap: 1rem; padding-block: 0.35rem;
+    font-family: var(--font-display); font-size: clamp(2.4rem, 11vw, 4.5rem); line-height: 1.05; letter-spacing: -0.02em;
+    text-decoration: none;
+  }
+  .mobile-menu__nav a[aria-current='page'] { color: var(--color-accent-soft); font-style: italic; }
+  .mobile-menu__num { font-family: var(--font-body); font-size: var(--step--1); color: var(--color-on-dark-muted); min-width: 2ch; }
+  .mobile-menu__foot { padding-block: var(--space-l); border-top: 1px solid rgb(244 242 236 / 0.16); }
+  @media (prefers-reduced-motion: no-preference) {
+    .mobile-menu[open] { animation: menu-in 500ms var(--ease-out); }
+    .mobile-menu[open] li { animation: item-in 700ms var(--ease-out) both; animation-delay: calc(80ms + var(--i) * 45ms); }
+  }
+  @keyframes menu-in { from { opacity: 0; } }
+  @keyframes item-in { from { opacity: 0; transform: translateY(1.25rem); } }
+</style>

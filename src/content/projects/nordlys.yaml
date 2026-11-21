@@ -1,0 +1,83 @@
+# PLACEHOLDER PROJECT — fictional client, copy and figures. Replace before launch.
+slug: nordlys
+placeholder: true
+featured: true
+order: 1
+layout: large
+year: 2025
+category: pr-campaign
+client: Nordlys Design House
+role:
+  lv: Kampaņas vadītāja, mediju attiecības
+  en: Campaign lead, media relations
+title:
+  lv: Gaisma no ziemeļiem
+  en: Light from the North
+summary:
+  lv: Starptautiska PR kampaņa skandināvu dizaina zīmola ienākšanai Baltijas tirgū.
+  en: An international PR campaign introducing a Scandinavian design brand to the Baltic market.
+cover:
+  type: image
+  src: ../../assets/images/projects/nordlys-cover.jpg
+  alt:
+    lv: Skatuve ar siltu gaismu un auditorija zīmola atklāšanas vakarā
+    en: A stage in warm light and an audience at the brand launch evening
+overview:
+  lv: |
+    Nordlys Design House vēlējās ienākt Baltijas tirgū nevis ar reklāmu, bet ar stāstu. Mūsu uzdevums bija izveidot zīmola pirmo iespaidu — caur medijiem, dizaina kopienu un vienu neaizmirstamu vakaru.
+  en: |
+    Nordlys Design House wanted to enter the Baltic market with a story rather than advertising. Our task was to shape the brand's first impression — through the media, the design community and one memorable evening.
+challenge:
+  lv: |
+    Zīmols Latvijā bija praktiski nezināms, un dizaina mediju lauks ir neliels un piesātināts. Vajadzēja atrast iemeslu, kāpēc žurnālistiem par to rakstīt **tagad**.
+  en: |
+    The brand was virtually unknown in Latvia, and the design media landscape is small and saturated. We had to find a reason for journalists to write about it **now**.
+strategy:
+  lv: |
+    Kampaņas centrā likām gaismu — kopīgu tēmu ziemeļu tumšajiem ziemas mēnešiem. Izstrādājām trīs vēstījumu līmeņus:
+
+    - **Kultūras** — gaisma kā ziemeļnieku ikdienas rituāls;
+    - **Dizaina** — materiāli, amatniecība un ilgtspēja;
+    - **Cilvēku** — dizaineru personīgie stāsti.
+  en: |
+    We put light at the centre of the campaign — a shared theme for the dark northern winter months. We developed three layers of messaging:
+
+    - **Cultural** — light as an everyday northern ritual;
+    - **Design** — materials, craft and sustainability;
+    - **Human** — the designers' personal stories.
+execution:
+  lv: |
+    Organizējām slēgtu preses priekšskatījumu 40 žurnālistiem un satura veidotājiem, sagatavojām ekskluzīvas intervijas ar galveno dizaineri un izveidojām divvalodu preses komplektu. Kampaņu noslēdza publisks atklāšanas vakars Rīgā.
+  en: |
+    We hosted a closed press preview for 40 journalists and creators, arranged exclusive interviews with the lead designer and produced a bilingual press kit. The campaign culminated in a public launch evening in Riga.
+# FICTIONAL FIGURES — replace with verified results
+results:
+  - value: "+240%"
+    label: { lv: mediju sasniedzamība, en: media reach }
+  - value: "62"
+    label: { lv: publikācijas 6 nedēļās, en: publications in 6 weeks }
+  - value: "1 800"
+    label: { lv: apmeklētāji atklāšanā, en: launch evening guests }
+gallery:
+  - type: image
+    src: ../../assets/images/projects/nordlys-1.jpg
+    alt: { lv: Dizaina objekti uz gaiša galda, en: Design objects on a pale table }
+    caption: { lv: Preses priekšskatījuma ekspozīcija, en: Press preview display }
+  - type: image
+    src: ../../assets/images/projects/nordlys-2.jpg
+    alt: { lv: Preses relīzes izdrukas uz galda, en: Printed press releases on a table }
+    caption: { lv: Divvalodu preses komplekts, en: Bilingual press kit }
+  - type: image
+    src: ../../assets/images/projects/nordlys-3.jpg
+    alt: { lv: Auditorija atklāšanas vakarā, en: Audience at the launch evening }
+  - type: image
+    src: ../../assets/images/projects/nordlys-4.jpg
+    alt: { lv: Intervijas studija ar diviem mikrofoniem, en: Interview studio with two microphones }
+    caption: { lv: Ekskluzīvā intervija ar galveno dizaineri, en: Exclusive interview with the lead designer }
+links:
+  - title: { lv: "Ziemeļu gaisma ienāk Rīgā", en: "Northern light arrives in Riga" }
+    url: https://example.com/placeholder/nordlys-feature
+    outlet: Dizaina Žurnāls
+  - title: { lv: Preses komplekts (PDF), en: Press kit (PDF) }
+    url: https://example.com/placeholder/nordlys-press-kit
+    outlet: Nordlys Design House

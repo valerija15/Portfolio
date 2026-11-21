@@ -1,0 +1,27 @@
+# PLACEHOLDER — fictional institutions and qualifications. Replace before launch.
+- id: ma
+  order: 1
+  kind: education
+  institution: { lv: Latvijas Komunikācijas augstskola, en: Latvian School of Communication }
+  qualification: { lv: Maģistra grāds stratēģiskajā komunikācijā, en: MA in Strategic Communication }
+  start: "2011-09"
+  end: "2013-06"
+- id: ba
+  order: 2
+  kind: education
+  institution: { lv: Rīgas Humanitāro zinātņu universitāte, en: Riga University of Humanities }
+  qualification: { lv: Bakalaura grāds žurnālistikā, en: BA in Journalism }
+  start: "2007-09"
+  end: "2011-06"
+- id: crisis-cert
+  order: 3
+  kind: certification
+  institution: { lv: Ziemeļvalstu Komunikācijas institūts, en: Nordic Communication Institute }
+  qualification: { lv: Krīzes komunikācijas sertifikāts, en: Certificate in Crisis Communication }
+  end: "2021-11"
+- id: digital-cert
+  order: 4
+  kind: certification
+  institution: { lv: Eiropas PR akadēmija, en: European PR Academy }
+  qualification: { lv: Digitālās komunikācijas sertifikāts, en: Certificate in Digital Communication }
+  end: "2020-04"

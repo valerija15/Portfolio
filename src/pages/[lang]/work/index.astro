@@ -1,0 +1,40 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHeader from '@/components/PageHeader.astro';
+import ProjectGrid from '@/components/ProjectGrid.astro';
+import FilterBar from '@/components/FilterBar.astro';
+import ContactBand from '@/components/ContactBand.astro';
+import { type Lang, langPaths, useTranslations } from '@/i18n';
+import { getProjects, getSite } from '@/lib/content';
+import { PROJECT_CATEGORIES } from '@/content.config';
+
+export const getStaticPaths = langPaths;
+const lang = Astro.params.lang as Lang;
+const t = useTranslations(lang);
+const site = await getSite();
+const projects = await getProjects();
+const used = new Set(projects.map((p) => p.category));
+const options = PROJECT_CATEGORIES.filter((c) => used.has(c)).map((c) => ({ value: c, label: t(`categories.${c}`) }));
+---
+<BaseLayout lang={lang} title={t('meta.work.title')} description={t('meta.work.description')}>
+  <PageHeader eyebrow={`(${String(projects.length).padStart(2, '0')})`} title={t('work.title')} intro={t('work.intro')} />
+  <section class="container work-index" aria-label={t('work.title')}>
+    <FilterBar
+      label={t('work.filterLabel')}
+      allLabel={t('work.all')}
+      options={options}
+      target="#work-grid"
+      itemAttr="category"
+      param="category"
+      countOne={t('work.countOne')}
+      countMany={t('work.count')}
+      emptyText={t('work.empty')}
+    />
+    <ProjectGrid lang={lang} projects={projects} id="work-grid" headingLevel="h2" />
+  </section>
+  <ContactBand lang={lang} email={site.email} />
+</BaseLayout>
+
+<style>
+  .work-index { padding-bottom: var(--space-2xl); }
+</style>

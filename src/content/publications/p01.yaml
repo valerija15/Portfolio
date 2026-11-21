@@ -1,0 +1,8 @@
+# PLACEHOLDER — fictional outlet and publication.
+type: article
+title: { lv: "Gaisma kā zīmola valoda", en: "Light as a brand language" }
+date: 2025-11-12
+url: https://example.com/placeholder/dizaina-zurnals-light
+language: lv
+outlet: { name: Dizaina Žurnāls, wordmark: serif }
+highlight: true

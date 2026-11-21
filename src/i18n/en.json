@@ -1,0 +1,216 @@
+{
+  "meta": {
+    "siteName": "Anna Bērziņa — Public Relations",
+    "locale": "en_GB",
+    "home": {
+      "title": "Anna Bērziņa — Public Relations Specialist",
+      "description": "Anna Bērziņa is a public relations specialist based in Riga: PR campaigns, media relations, event and crisis communication."
+    },
+    "about": {
+      "title": "About",
+      "description": "Anna Bērziņa's professional background, values and areas of expertise in public relations."
+    },
+    "work": {
+      "title": "Work",
+      "description": "Selected PR, media relations, event and crisis communication projects."
+    },
+    "experience": {
+      "title": "Experience",
+      "description": "Professional experience, education and certifications."
+    },
+    "media": {
+      "title": "Media & Publications",
+      "description": "Articles, interviews, press releases and media appearances."
+    },
+    "contact": {
+      "title": "Contact",
+      "description": "Get in touch with Anna Bērziņa about collaborations, campaigns or media enquiries."
+    },
+    "privacy": {
+      "title": "Privacy notice",
+      "description": "How data submitted through the contact form is handled."
+    },
+    "notFound": {
+      "title": "Page not found",
+      "description": "The page you are looking for does not exist."
+    }
+  },
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "work": "Work",
+    "experience": "Experience",
+    "media": "Media",
+    "contact": "Contact",
+    "label": "Main navigation",
+    "menu": "Menu",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
+    "skip": "Skip to content",
+    "language": "Language",
+    "switchTo": "Switch to English",
+    "current": "current page"
+  },
+  "langNames": {
+    "lv": "Latviešu",
+    "en": "English"
+  },
+  "common": {
+    "newTab": "(opens in a new tab)",
+    "readMore": "Read more",
+    "present": "present",
+    "fictional": "Illustrative content — fictional figures",
+    "play": "Play",
+    "pause": "Pause",
+    "playVideo": "Play video",
+    "pauseVideo": "Pause video",
+    "loadVideo": "Load and play video",
+    "videoConsent": "The video will load from {provider}."
+  },
+  "home": {
+    "scroll": "Scroll",
+    "ctaWork": "Explore my work",
+    "ctaContact": "Get in touch",
+    "selectedWork": "Selected work",
+    "allWork": "All work",
+    "aboutTitle": "About",
+    "aboutLink": "More about me",
+    "mediaTitle": "As seen in",
+    "testimonialsTitle": "What collaborators say"
+  },
+  "work": {
+    "title": "Work",
+    "intro": "Campaigns, events and stories created with brands, institutions and people.",
+    "filterLabel": "Filter by category",
+    "all": "All",
+    "count": "{n} projects",
+    "countOne": "{n} project",
+    "empty": "No projects in this category.",
+    "client": "Client",
+    "category": "Category",
+    "year": "Year",
+    "role": "Role",
+    "overview": "Overview",
+    "challenge": "The challenge",
+    "strategy": "Strategy & approach",
+    "execution": "Execution",
+    "results": "Results & impact",
+    "gallery": "Gallery",
+    "links": "Coverage & materials",
+    "prev": "Previous project",
+    "next": "Next project",
+    "back": "Back to work",
+    "openGallery": "Open in gallery: {title}",
+    "viewProject": "View project"
+  },
+  "categories": {
+    "pr-campaign": "PR campaigns",
+    "media-relations": "Media relations",
+    "event-communication": "Event communication",
+    "brand-communication": "Brand communication",
+    "social-media": "Social media campaigns",
+    "content-creation": "Content creation",
+    "public-events": "Public events",
+    "crisis-communication": "Crisis communication"
+  },
+  "lightbox": {
+    "label": "Gallery",
+    "close": "Close",
+    "prev": "Previous",
+    "next": "Next",
+    "counter": "{i} of {n}"
+  },
+  "about": {
+    "title": "About",
+    "principles": "Approach to communication",
+    "expertise": "Areas of expertise",
+    "cv": "Download CV (PDF)"
+  },
+  "experience": {
+    "title": "Experience",
+    "intro": "A path from the newsroom to strategic communication.",
+    "work": "Work experience",
+    "education": "Education & certifications",
+    "education-kind": "Education",
+    "certification-kind": "Certification"
+  },
+  "media": {
+    "title": "Media & Publications",
+    "intro": "Articles, interviews and media appearances, plus campaign publications.",
+    "filterLabel": "Filter by type",
+    "all": "All",
+    "languageHint": "Publication language: {lang}",
+    "watch": "Watch",
+    "read": "Read",
+    "types": {
+      "article": "Article",
+      "press-release": "Press release",
+      "interview": "Interview",
+      "media-appearance": "Media appearance",
+      "campaign-publication": "Campaign publication",
+      "video-interview": "Video interview"
+    },
+    "count": "{n} items",
+    "countOne": "{n} item",
+    "empty": "No publications of this type."
+  },
+  "contact": {
+    "title": "Contact",
+    "headline": "Let's talk about your next story.",
+    "intro": "Whether you are planning a campaign, preparing an event or need advice in a crisis — write to me.",
+    "email": "Email",
+    "phone": "Phone",
+    "linkedin": "LinkedIn",
+    "location": "Location",
+    "form": {
+      "title": "Send a message",
+      "name": "Name",
+      "email": "Email",
+      "subject": "Subject",
+      "message": "Message",
+      "consent": "I agree that my data will be processed to reply to this message, in line with the",
+      "consentLink": "privacy notice",
+      "required": "required",
+      "submit": "Send message",
+      "submitMail": "Open in email app",
+      "sending": "Sending…",
+      "success": "Thank you! Your message has been sent — I will reply within two working days.",
+      "error": "The message could not be sent. Please try again or write to {email}.",
+      "mailtoNote": "The button will open your email app with a prepared message.",
+      "mailtoOpened": "Your email app should open now. If it doesn't, write to {email}.",
+      "errorsSummary": "Please correct {n} error(s) in the form.",
+      "errors": {
+        "name": "Please enter your name.",
+        "email": "Please enter a valid email address.",
+        "subject": "Please enter a subject.",
+        "message": "Please write a message (at least 10 characters).",
+        "consent": "Your consent is required to send the message."
+      },
+      "honeypot": "Leave this field empty"
+    }
+  },
+  "cta": {
+    "title": "Have a story worth telling?",
+    "text": "Tell me about your idea — together we'll find the way to tell it.",
+    "button": "Get in touch"
+  },
+  "footer": {
+    "rights": "All rights reserved.",
+    "privacy": "Privacy notice",
+    "backToTop": "Back to top"
+  },
+  "notFound": {
+    "title": "This page has left the stage.",
+    "text": "The page you are looking for doesn't exist or has moved.",
+    "home": "Go to home page",
+    "work": "Explore my work"
+  },
+  "privacy": {
+    "title": "Privacy notice",
+    "updated": "Last updated",
+    "body": "## Who processes your data\nThe controller is Anna Bērziņa ({email}).\n\n## What is collected\nThe name, email address, subject and message entered in the contact form. Nothing else is collected.\n\n## Why\nSolely to reply to your message (GDPR Art. 6(1)(a) — consent).\n\n## How long\nMessages are kept for no longer than 12 months after the last contact.\n\n## Third parties\nIf the form is connected to a form-handling service, data is passed to that processor only to deliver the message.\n\n## Cookies and analytics\nThis site uses no cookies or analytics. Only your language preference is stored in your browser (localStorage).\n\n## Your rights\nYou can request access to, correction or deletion of your data by writing to {email}. You have the right to lodge a complaint with the Data State Inspectorate of Latvia."
+  },
+  "dates": {
+    "present": "present"
+  }
+}

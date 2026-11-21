@@ -1,0 +1,103 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHeader from '@/components/PageHeader.astro';
+import ContactBand from '@/components/ContactBand.astro';
+import { type Lang, langPaths, useTranslations, l } from '@/i18n';
+import { formatDate, parseYearMonth } from '@/lib/format';
+import { getSite, getExperience, getEducation } from '@/lib/content';
+
+export const getStaticPaths = langPaths;
+const lang = Astro.params.lang as Lang;
+const t = useTranslations(lang);
+const site = await getSite();
+const experience = await getExperience();
+const education = await getEducation();
+
+const ym = (v: string) => ({ text: formatDate(parseYearMonth(v), lang, 'month'), iso: v });
+const period = (start: string | undefined, end: string | null | undefined) => ({
+  start: start ? ym(start) : undefined,
+  end: end ? ym(end) : undefined,
+});
+---
+<BaseLayout lang={lang} title={t('meta.experience.title')} description={t('meta.experience.description')}>
+  <PageHeader eyebrow={`${site.name}`} title={t('experience.title')} intro={t('experience.intro')} />
+
+  <section class="section container" aria-labelledby="work-exp-title">
+    <div class="section-head" data-reveal><h2 id="work-exp-title">{t('experience.work')}</h2></div>
+    <ol role="list" class="timeline">
+      {experience.map((job) => {
+        const p = period(job.start, job.end);
+        return (
+          <li class="timeline__item" data-reveal>
+            <p class="timeline__period index-num">
+              {p.start && <time datetime={p.start.iso}>{p.start.text}</time>}
+              <span aria-hidden="true"> — </span><span class="sr-only"> – </span>
+              {p.end ? <time datetime={p.end.iso}>{p.end.text}</time> : <span class="timeline__present">{t('common.present')}</span>}
+            </p>
+            <div class="timeline__body">
+              <h3 class="timeline__role">{l(job.position, lang)}</h3>
+              <p class="timeline__org">{job.organisation}{job.location && <span> · {l(job.location, lang)}</span>}</p>
+              <p class="timeline__desc">{l(job.description, lang)}</p>
+              {job.achievements && (
+                <ul class="timeline__achievements">
+                  {job.achievements.map((a) => <li>{l(a, lang)}</li>)}
+                </ul>
+              )}
+            </div>
+          </li>
+        );
+      })}
+    </ol>
+  </section>
+
+  <section class="section container" aria-labelledby="edu-title">
+    <div class="section-head" data-reveal><h2 id="edu-title">{t('experience.education')}</h2></div>
+    <ul role="list" class="edu">
+      {education.map((e, i) => {
+        const p = period(e.start, e.end);
+        return (
+          <li data-reveal style={`--reveal-delay:${i % 2}`}>
+            <p class="eyebrow eyebrow--accent">{t(`experience.${e.kind}-kind`)}</p>
+            <h3>{l(e.qualification, lang)}</h3>
+            <p class="edu__inst">{l(e.institution, lang)}</p>
+            <p class="edu__period index-num">
+              {p.start && <><time datetime={p.start.iso}>{p.start.text}</time> — </>}
+              {p.end && <time datetime={p.end.iso}>{p.end.text}</time>}
+            </p>
+            {e.description && <p>{l(e.description, lang)}</p>}
+          </li>
+        );
+      })}
+    </ul>
+  </section>
+
+  <ContactBand lang={lang} email={site.email} />
+</BaseLayout>
+
+<style>
+  .timeline { display: grid; }
+  .timeline__item {
+    display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: var(--space-s) var(--gutter);
+    padding-block: var(--space-l); border-bottom: 1px solid var(--color-line);
+  }
+  .timeline__period, .timeline__body { grid-column: 1 / -1; }
+  .timeline__period { font-size: var(--step--1); letter-spacing: 0.04em; color: var(--color-muted); }
+  .timeline__present { color: var(--color-accent); font-weight: 500; }
+  .timeline__role { font-size: var(--step-3); line-height: 1.1; }
+  .timeline__org { margin-top: 0.35rem; font-weight: 500; }
+  .timeline__org span { font-weight: 400; color: var(--color-muted); }
+  .timeline__desc { margin-top: var(--space-s); max-width: 52ch; color: var(--color-charcoal); }
+  .timeline__achievements { margin-top: var(--space-s); padding-left: 1.1em; max-width: 52ch; }
+  .timeline__achievements li::marker { content: '— '; color: var(--color-accent); }
+  @media (min-width: 64rem) {
+    .timeline__period { grid-column: 1 / span 3; padding-top: 0.6rem; }
+    .timeline__body { grid-column: 4 / -1; }
+    .timeline__item { transition: background var(--dur-med); }
+  }
+  .edu { display: grid; gap: var(--space-xl) var(--gutter); }
+  @media (min-width: 48rem) { .edu { grid-template-columns: repeat(2, 1fr); } }
+  .edu li { display: grid; gap: 0.4rem; align-content: start; padding-top: var(--space-s); border-top: 1px solid var(--color-ink); }
+  .edu h3 { font-size: var(--step-2); }
+  .edu__inst { font-weight: 500; }
+  .edu__period { font-size: var(--step--1); color: var(--color-muted); }
+</style>

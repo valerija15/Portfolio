@@ -1,0 +1,43 @@
+---
+import { LOCALES, type Lang, useTranslations } from '@/i18n';
+import { switchLocalePath } from '@/lib/routes';
+
+interface Props { lang: Lang; class?: string }
+const { lang, class: className } = Astro.props;
+const t = useTranslations(lang);
+const path = Astro.url.pathname;
+---
+<nav class:list={['lang-switch', className]} aria-label={t('nav.language')}>
+  <ul role="list">
+    {LOCALES.map((code, i) => {
+      const tt = useTranslations(code);
+      return (
+        <li>
+          {i > 0 && <span class="lang-switch__sep" aria-hidden="true">|</span>}
+          {code === lang ? (
+            <a href={path} aria-current="true" lang={code} data-lang-link={code}>
+              <span aria-hidden="true">{code.toUpperCase()}</span>
+              <span class="sr-only">{tt('langNames.' + code)}</span>
+            </a>
+          ) : (
+            <a href={switchLocalePath(path, code)} hreflang={code} lang={code} data-lang-link={code}>
+              <span aria-hidden="true">{code.toUpperCase()}</span>
+              <span class="sr-only">{tt('nav.switchTo')}</span>
+            </a>
+          )}
+        </li>
+      );
+    })}
+  </ul>
+</nav>
+
+<style>
+  .lang-switch ul { display: flex; align-items: center; gap: 0.15rem; font-size: var(--step--1); font-weight: 500; letter-spacing: 0.08em; }
+  .lang-switch li { display: flex; align-items: center; gap: 0.15rem; }
+  .lang-switch__sep { opacity: 0.4; }
+  .lang-switch a { display: inline-grid; place-items: center; min-width: 2.25rem; min-height: 2.25rem; text-decoration: none; color: var(--color-muted); transition: color var(--dur-fast); }
+  :global(.on-dark) .lang-switch a { color: var(--color-on-dark-muted); }
+  .lang-switch a:hover, .lang-switch a[aria-current='true'] { color: inherit; }
+  :global(.on-dark) .lang-switch a:hover, :global(.on-dark) .lang-switch a[aria-current='true'] { color: var(--color-on-dark); }
+  .lang-switch a[aria-current='true'] { text-decoration: underline; text-underline-offset: 0.35em; }
+</style>

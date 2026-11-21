@@ -1,0 +1,50 @@
+# PLACEHOLDER PROJECT — fictional client, copy and figures. Replace before launch.
+slug: vilks
+placeholder: true
+featured: false
+order: 6
+layout: standard
+year: 2024
+category: social-media
+client: Vilks Outdoor
+role:
+  lv: Sociālo mediju kampaņas vadītāja
+  en: Social media campaign lead
+title:
+  lv: "#IzejĀrā"
+  en: "#StepOutside"
+summary:
+  lv: Sociālo mediju kampaņa, kas aicināja pilsētniekus pavadīt vairāk laika dabā.
+  en: A social campaign inviting city dwellers to spend more time outdoors.
+cover:
+  type: image
+  src: ../../assets/images/projects/vilks-cover.jpg
+  alt:
+    lv: Klusā daba ar formām zemes toņos
+    en: Still life with shapes in earthy tones
+overview:
+  lv: |
+    Vilks Outdoor vēlējās runāt ar jaunāku auditoriju bez agresīvas pārdošanas. Rezultāts — 30 dienu izaicinājums sociālajos tīklos.
+  en: |
+    Vilks Outdoor wanted to reach a younger audience without hard selling. The result: a 30-day social media challenge.
+strategy:
+  lv: |
+    Lietotāju radīts saturs pirmajā vietā; zīmols — tikai kā ceļvedis un iedvesmotājs.
+  en: |
+    User-generated content first; the brand acted only as guide and instigator.
+# FICTIONAL FIGURES — replace with verified results
+results:
+  - value: "11 400"
+    label: { lv: lietotāju publikācijas, en: user posts }
+  - value: "+58%"
+    label: { lv: sekotāju pieaugums, en: follower growth }
+gallery:
+  - type: image
+    src: ../../assets/images/projects/vilks-1.jpg
+    alt: { lv: Kampaņas vizuālis, en: Campaign visual }
+  - type: image
+    src: ../../assets/images/projects/vilks-2.jpg
+    alt: { lv: Lietotāju publikāciju kolāža, en: User post collage }
+  - type: image
+    src: ../../assets/images/projects/vilks-3.jpg
+    alt: { lv: Kampaņas tiešraides studija, en: Campaign live studio }

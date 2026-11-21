@@ -1,0 +1,101 @@
+# ---------------------------------------------------------------------------
+# SITE CONFIG & PROFILE COPY  — PLACEHOLDER CONTENT (fictional person)
+# Replace values here to go live. Images are relative to this file.
+# ---------------------------------------------------------------------------
+name: Anna Bērziņa
+title:
+  lv: Sabiedrisko attiecību speciāliste
+  en: Public Relations Specialist
+location:
+  lv: Rīga, Latvija
+  en: Riga, Latvia
+email: anna.berzina@example.com
+phone: "+371 2000 0000"
+showPhone: true
+socials:
+  linkedin: https://www.linkedin.com/in/placeholder-anna-berzina
+form:
+  # provider: formspree | netlify | custom | none
+  # endpoint: e.g. https://formspree.io/f/xxxxxxx  (empty => mailto: fallback)
+  provider: none
+  endpoint: ""
+cvPath: /cv/anna-berzina-cv.pdf
+ogImage: /og/og-default.jpg
+
+hero:
+  headline:
+    lv: ["Stāsti, kas veido reputāciju.", "Komunikācija, kas rada ietekmi."]
+    en: ["Stories that shape reputation.", "Communication that makes an impact."]
+  intro:
+    lv: Palīdzu zīmoliem, organizācijām un cilvēkiem veidot jēgpilnu komunikāciju, kas sasniedz auditoriju un paliek atmiņā.
+    en: I help brands, organisations and people create meaningful communication that reaches audiences and leaves a lasting impression.
+  # Switch to the video variant by replacing this block with:
+  #   type: video
+  #   src: /video/hero-loop.mp4
+  #   webm: /video/hero-loop.webm
+  #   poster: ../../assets/images/portrait-hero.jpg
+  #   alt: { lv: ..., en: ... }
+  media:
+    type: image
+    src: ../../assets/images/portrait-hero.jpg
+    alt:
+      lv: Annas Bērziņas portrets siltā dienasgaismā
+      en: Portrait of Anna Bērziņa in warm daylight
+  caption:
+    lv: Rīga, 2026
+    en: Riga, 2026
+
+about:
+  portrait: ../../assets/images/portrait-about.jpg
+  portraitAlt:
+    lv: Anna Bērziņa darba studijā
+    en: Anna Bērziņa in the studio
+  teaserPortrait: ../../assets/images/portrait-teaser.jpg
+  teaserPortraitAlt:
+    lv: Annas Bērziņas portrets
+    en: Portrait of Anna Bērziņa
+  lead:
+    lv: Vairāk nekā desmit gadus strādāju starp zīmoliem, medijiem un sabiedrību — tur, kur stāsts kļūst par uzticību.
+    en: For more than a decade I have worked between brands, media and the public — where a story turns into trust.
+  teaser:
+    lv: Esmu sabiedrisko attiecību speciāliste ar pieredzi kultūras, tehnoloģiju un publiskajā sektorā. Ticu skaidrai valodai, rūpīgai sagatavotībai un attiecībām, kas balstītas uzticībā.
+    en: I am a public relations specialist with experience across culture, technology and the public sector. I believe in clear language, careful preparation and relationships built on trust.
+  bio:
+    lv: |
+      Esmu sabiedrisko attiecību speciāliste no Rīgas. Strādāju ar kultūras institūcijām, tehnoloģiju uzņēmumiem un publiskā sektora organizācijām, palīdzot tām runāt skaidri, cilvēcīgi un pārliecinoši.
+
+      Mans darbs aptver visu komunikācijas ciklu — no stratēģijas un vēstījumu izstrādes līdz mediju attiecībām, pasākumiem un krīzes komunikācijai. Esmu vadījusi kampaņas, kas sasniegušas starptautisku mediju uzmanību, un veidojusi ilgstošas attiecības ar žurnālistiem Baltijā un Ziemeļvalstīs.
+
+      Ārpus darba lasu esejas, apmeklēju laikmetīgās mākslas izstādes un vadu nelielu semināru ciklu jaunajiem komunikācijas speciālistiem.
+    en: |
+      I am a public relations specialist based in Riga. I work with cultural institutions, technology companies and public sector organisations, helping them speak clearly, humanly and convincingly.
+
+      My work spans the full communication cycle — from strategy and messaging to media relations, events and crisis communication. I have led campaigns that earned international media attention and built lasting relationships with journalists across the Baltics and the Nordics.
+
+      Outside work I read essays, visit contemporary art exhibitions and run a small seminar series for emerging communication professionals.
+  principles:
+    - title: { lv: Skaidrība pirms skaļuma, en: Clarity before volume }
+      text:
+        lv: Labākais vēstījums ir tas, ko var atkārtot vienā teikumā. Vispirms skaidrība, tad izplatīšana.
+        en: The best message is one that can be repeated in a single sentence. Clarity first, reach second.
+    - title: { lv: Attiecības, nevis kontakti, en: Relationships, not contacts }
+      text:
+        lv: Mediju attiecības balstās uzticībā, ko veido godīgums, precizitāte un cieņa pret žurnālista laiku.
+        en: Media relations rest on trust — built through honesty, accuracy and respect for a journalist's time.
+    - title: { lv: Pierādījumi, nevis pieņēmumi, en: Evidence, not assumptions }
+      text:
+        lv: Katru kampaņu sāku ar auditorijas izpēti un beidzu ar godīgu rezultātu analīzi.
+        en: I start every campaign with audience research and end it with an honest analysis of results.
+    - title: { lv: Sagatavotība krīzē, en: Prepared for the unexpected }
+      text:
+        lv: Reputācija tiek aizsargāta pirms krīzes — ar scenārijiem, vēstījumu bankām un skaidru lēmumu ķēdi.
+        en: Reputation is protected before a crisis — with scenarios, message banks and a clear chain of decisions.
+  expertise:
+    - { lv: Sabiedriskās attiecības, en: Public Relations }
+    - { lv: Stratēģiskā komunikācija, en: Strategic Communication }
+    - { lv: Mediju attiecības, en: Media Relations }
+    - { lv: Satura veidošana, en: Content Creation }
+    - { lv: Pasākumu vadība, en: Event Management }
+    - { lv: Zīmola stāstniecība, en: Brand Storytelling }
+    - { lv: Digitālā komunikācija, en: Digital Communication }
+    - { lv: Kampaņu plānošana, en: Campaign Planning }

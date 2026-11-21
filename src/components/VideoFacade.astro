@@ -1,0 +1,76 @@
+---
+/**
+ * Lightweight click-to-load facade for YouTube / Vimeo.
+ * No third-party request until the visitor clicks. Without JS it is a plain link to the video.
+ */
+import { Picture } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import { type Lang, useTranslations } from '@/i18n';
+
+interface Props {
+  lang: Lang;
+  provider: 'youtube' | 'vimeo';
+  id: string;
+  title: string;
+  poster: ImageMetadata;
+  sizes?: string;
+}
+const { lang, provider, id, title, poster, sizes = '(min-width: 64rem) 60vw, 100vw' } = Astro.props;
+const t = useTranslations(lang);
+const watchUrl = provider === 'youtube' ? `https://www.youtube.com/watch?v=${id}` : `https://vimeo.com/${id}`;
+const embedUrl =
+  provider === 'youtube'
+    ? `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0`
+    : `https://player.vimeo.com/video/${id}?autoplay=1&dnt=1`;
+const providerName = provider === 'youtube' ? 'YouTube' : 'Vimeo';
+---
+<div class="facade" data-facade data-embed={embedUrl} data-title={title}>
+  <a class="facade__link" href={watchUrl} target="_blank" rel="noopener noreferrer">
+    <Picture src={poster} alt="" formats={['avif', 'webp']} widths={[480, 800, 1200, 1600].filter((w) => w <= poster.width)} sizes={sizes} loading="lazy" />
+    <span class="facade__play" aria-hidden="true">
+      <svg viewBox="0 0 16 16" width="18" height="18"><path d="M4 2.5v11l9-5.5z" fill="currentColor" /></svg>
+    </span>
+    <span class="facade__label">
+      <span class="sr-only">{t('common.loadVideo')}: </span>{title}
+      <span class="facade__provider">{t('common.videoConsent', { provider: providerName })}</span>
+    </span>
+  </a>
+</div>
+
+<script>
+  document.addEventListener('click', (e) => {
+    const link = (e.target as Element | null)?.closest<HTMLAnchorElement>('[data-facade] .facade__link');
+    if (!link) return;
+    const wrap = link.closest<HTMLElement>('[data-facade]')!;
+    e.preventDefault();
+    const iframe = document.createElement('iframe');
+    iframe.src = wrap.dataset.embed!;
+    iframe.title = wrap.dataset.title ?? '';
+    iframe.allow = 'autoplay; fullscreen; picture-in-picture; encrypted-media';
+    iframe.allowFullscreen = true;
+    iframe.loading = 'lazy';
+    wrap.replaceChildren(iframe);
+    iframe.focus();
+  });
+</script>
+
+<style>
+  .facade { position: relative; aspect-ratio: 16 / 9; background: var(--color-ink); overflow: hidden; }
+  .facade__link { display: block; position: absolute; inset: 0; color: var(--color-paper); text-decoration: none; }
+  .facade :global(img), .facade :global(picture) { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform var(--dur-slow) var(--ease-out), opacity var(--dur-med); opacity: 0.85; }
+  .facade__link:hover :global(img) { transform: scale(1.03); opacity: 1; }
+  .facade__play {
+    position: absolute; left: 50%; top: 50%; translate: -50% -50%;
+    display: grid; place-items: center; width: 4.5rem; height: 4.5rem; border-radius: 50%;
+    background: var(--color-paper); color: var(--color-ink);
+    transition: transform var(--dur-med) var(--ease-out), background var(--dur-fast);
+  }
+  .facade__link:hover .facade__play, .facade__link:focus-visible .facade__play { transform: scale(1.08); background: var(--color-accent-soft); }
+  .facade__label {
+    position: absolute; left: 0; right: 0; bottom: 0; padding: 0.8rem 1rem 0.9rem;
+    display: grid; gap: 0.15rem; font-size: var(--step--1);
+    background: rgb(20 20 19 / 0.8);
+  }
+  .facade__provider { opacity: 0.75; font-size: 0.75rem; }
+  .facade :global(iframe) { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+</style>

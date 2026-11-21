@@ -1,0 +1,68 @@
+# PLACEHOLDER PROJECT — fictional client, copy and figures. Replace before launch.
+slug: green-harbour
+placeholder: true
+featured: true
+order: 4
+layout: tall
+year: 2024
+category: brand-communication
+client: Zaļā Osta
+role:
+  lv: Zīmola komunikācijas stratēģe
+  en: Brand communication strategist
+title:
+  lv: Osta, kas elpo
+  en: A Harbour That Breathes
+summary:
+  lv: Ostas zīmola pārveide, stāstot par ilgtspēju caur cilvēkiem, kas tur strādā.
+  en: Repositioning a port's brand by telling its sustainability story through the people who work there.
+cover:
+  type: video
+  src: /video/green-harbour-loop.mp4
+  webm: /video/green-harbour-loop.webm
+  poster: ../../assets/images/projects/green-harbour-cover.jpg
+  alt:
+    lv: Abstrakta kompozīcija olīvu toņos
+    en: Abstract composition in olive tones
+overview:
+  lv: |
+    Zaļā Osta vēlējās mainīt priekšstatu par sevi — no rūpnieciskas teritorijas uz modernu, atbildīgu kaimiņu pilsētai.
+  en: |
+    Zaļā Osta wanted to change how it was perceived — from an industrial zone to a modern, responsible neighbour to the city.
+challenge:
+  lv: |
+    Iedzīvotāju uzticība bija zema, un ilgtspējas apgalvojumi bez pierādījumiem riskēja izskatīties pēc zaļās mazgāšanas.
+  en: |
+    Public trust was low, and sustainability claims without proof risked looking like greenwashing.
+strategy:
+  lv: |
+    Pierādījumi pirms solījumiem: katru vēstījumu pamatojām ar datiem un stāstiem no ostas darbiniekiem.
+  en: |
+    Proof before promises: every message was backed by data and stories from the port's own staff.
+execution:
+  lv: |
+    Portretu sērija ar 14 darbiniekiem, atvērto durvju dienas un ikgadējs ilgtspējas pārskats vienkāršā valodā.
+  en: |
+    A portrait series featuring 14 employees, open days and an annual sustainability report written in plain language.
+# FICTIONAL FIGURES — replace with verified results
+results:
+  - value: "+31 pp"
+    label: { lv: uzticības pieaugums iedzīvotāju aptaujā, en: rise in public trust survey }
+  - value: "4 200"
+    label: { lv: atvērto durvju dienu apmeklētāji, en: open day visitors }
+gallery:
+  - type: image
+    src: ../../assets/images/projects/green-harbour-1.jpg
+    alt: { lv: Ostas darbinieka portrets, en: Portrait of a port employee }
+  - type: video
+    src: /video/green-harbour-loop.mp4
+    webm: /video/green-harbour-loop.webm
+    poster: ../../assets/images/projects/green-harbour-2.jpg
+    alt: { lv: Kampaņas video fragments, en: Campaign video excerpt }
+    caption: { lv: Kampaņas video fragments, en: Campaign video excerpt }
+  - type: image
+    src: ../../assets/images/projects/green-harbour-3.jpg
+    alt: { lv: Ilgtspējas pārskata izdrukas, en: Sustainability report prints }
+  - type: image
+    src: ../../assets/images/projects/green-harbour-4.jpg
+    alt: { lv: Atvērto durvju diena, en: Open day }

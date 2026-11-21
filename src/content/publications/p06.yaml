@@ -1,0 +1,7 @@
+# PLACEHOLDER — fictional outlet and publication.
+type: campaign-publication
+title: { lv: "Osta, kas elpo — ilgtspējas pārskats 2024", en: "A Harbour That Breathes — Sustainability Report 2024" }
+date: 2024-05-30
+url: https://example.com/placeholder/green-harbour-report
+language: en
+outlet: { name: Zaļā Osta, wordmark: sans }

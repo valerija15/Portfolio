@@ -1,0 +1,192 @@
+---
+/**
+ * Project gallery: images, self-hosted videos and YouTube/Vimeo embeds.
+ * Each item is a real link (works without JS); JS opens an accessible <dialog> lightbox
+ * with keyboard navigation (←/→, Home/End), focus containment, Esc to close and captions.
+ */
+import { Picture, getImage } from 'astro:assets';
+import { type Lang, useTranslations, l } from '@/i18n';
+import type { Project } from '@/lib/content';
+
+interface Props { lang: Lang; items: NonNullable<Project['gallery']>; title: string }
+const { lang, items, title } = Astro.props;
+const t = useTranslations(lang);
+
+const prepared = await Promise.all(
+  items.map(async (item, i) => {
+    const alt = l(item.alt, lang);
+    const caption = item.caption ? l(item.caption, lang) : undefined;
+    const thumb = item.type === 'image' ? item.src : item.poster;
+    const large = await getImage({ src: thumb, width: Math.min(2000, thumb.width), format: 'webp' });
+    let href = large.src;
+    if (item.type === 'video') href = item.src;
+    if (item.type === 'embed') href = item.embed.provider === 'youtube' ? `https://www.youtube.com/watch?v=${item.embed.id}` : `https://vimeo.com/${item.embed.id}`;
+    const embedSrc =
+      item.type === 'embed'
+        ? item.embed.provider === 'youtube'
+          ? `https://www.youtube-nocookie.com/embed/${item.embed.id}?autoplay=1&rel=0`
+          : `https://player.vimeo.com/video/${item.embed.id}?autoplay=1&dnt=1`
+        : undefined;
+    const shape = thumb.width / thumb.height > 1.25 ? 'landscape' : thumb.width / thumb.height < 0.9 ? 'portrait' : 'square';
+    return { item, i, alt, caption, thumb, large, href, embedSrc, shape };
+  }),
+);
+---
+<div class="gallery" data-gallery>
+  <ul role="list" class="gallery__grid">
+    {prepared.map(({ item, i, alt, caption, thumb, href, shape }) => (
+      <li class:list={['gallery__item', `gallery__item--${shape}`]} data-reveal style={`--reveal-delay:${i % 3}`}>
+        <figure>
+          <a
+            class="gallery__link frame"
+            href={href}
+            data-index={i}
+            {...(item.type === 'embed' ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+            aria-label={t('work.openGallery', { title: alt })}
+          >
+            <Picture src={thumb} alt="" formats={['avif', 'webp']} widths={[480, 800, 1200].filter((w) => w <= thumb.width)} sizes="(min-width: 64rem) 45vw, 100vw" loading="lazy" />
+            {item.type !== 'image' && (
+              <span class="gallery__badge" aria-hidden="true">
+                <svg viewBox="0 0 16 16" width="14" height="14"><path d="M4 2.5v11l9-5.5z" fill="currentColor" /></svg>
+                {item.type === 'embed' ? (item.embed.provider === 'youtube' ? 'YouTube' : 'Vimeo') : 'Video'}
+              </span>
+            )}
+          </a>
+          {caption && <figcaption>{caption}</figcaption>}
+        </figure>
+      </li>
+    ))}
+  </ul>
+
+  {prepared.map(({ item, i, alt, caption, large, embedSrc }) => (
+    <template data-slide={i}>
+      <figure class="lb__figure">
+        <div class="lb__media">
+          {item.type === 'image' && <img src={large.src} alt={alt} width={large.attributes.width} height={large.attributes.height} decoding="async" />}
+          {item.type === 'video' && (
+            <video controls playsinline preload="metadata" poster={large.src} aria-label={alt}>
+              {item.webm && <source src={item.webm} type="video/webm" />}
+              <source src={item.src} type="video/mp4" />
+            </video>
+          )}
+          {item.type === 'embed' && <iframe data-src={embedSrc} title={alt} allow="autoplay; fullscreen; picture-in-picture; encrypted-media" allowfullscreen />}
+        </div>
+        <figcaption><span class="lb__alt">{caption ?? alt}</span></figcaption>
+      </figure>
+    </template>
+  ))}
+
+  <dialog class="lb" aria-label={`${t('lightbox.label')}: ${title}`} data-lightbox data-counter={t('lightbox.counter')}>
+    <div class="lb__bar">
+      <p class="lb__counter index-num" aria-live="polite" data-lb-counter></p>
+      <button type="button" class="lb__close" data-lb-close>
+        {t('lightbox.close')}
+        <svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true" focusable="false"><path d="M2 2l12 12M14 2 2 14" stroke="currentColor" stroke-width="1.4" /></svg>
+      </button>
+    </div>
+    <div class="lb__stage" data-lb-stage></div>
+    <div class="lb__nav">
+      <button type="button" data-lb-prev><span aria-hidden="true">←</span> {t('lightbox.prev')}</button>
+      <button type="button" data-lb-next>{t('lightbox.next')} <span aria-hidden="true">→</span></button>
+    </div>
+  </dialog>
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-gallery]').forEach((gallery) => {
+    const dialog = gallery.querySelector<HTMLDialogElement>('[data-lightbox]')!;
+    const stage = dialog.querySelector<HTMLElement>('[data-lb-stage]')!;
+    const counter = dialog.querySelector<HTMLElement>('[data-lb-counter]')!;
+    const slides = [...gallery.querySelectorAll<HTMLTemplateElement>('template[data-slide]')];
+    const links = [...gallery.querySelectorAll<HTMLAnchorElement>('a[data-index]')];
+    let current = 0;
+    let opener: HTMLElement | null = null;
+
+    const show = (i: number) => {
+      current = (i + slides.length) % slides.length;
+      const node = slides[current]!.content.cloneNode(true) as DocumentFragment;
+      const iframe = node.querySelector<HTMLIFrameElement>('iframe[data-src]');
+      if (iframe) iframe.src = iframe.dataset.src!;
+      stage.replaceChildren(node);
+      counter.textContent = dialog.dataset.counter!.replace('{i}', String(current + 1)).replace('{n}', String(slides.length));
+    };
+
+    links.forEach((link) =>
+      link.addEventListener('click', (e) => {
+        if (e.metaKey || e.ctrlKey || e.shiftKey) return;
+        e.preventDefault();
+        opener = link;
+        show(Number(link.dataset.index));
+        dialog.showModal();
+        dialog.querySelector<HTMLElement>('[data-lb-close]')!.focus();
+      }),
+    );
+    dialog.querySelector('[data-lb-close]')!.addEventListener('click', () => dialog.close());
+    dialog.querySelector('[data-lb-prev]')!.addEventListener('click', () => show(current - 1));
+    dialog.querySelector('[data-lb-next]')!.addEventListener('click', () => show(current + 1));
+    dialog.addEventListener('keydown', (e) => {
+      const tag = (e.target as HTMLElement).tagName;
+      if (tag === 'VIDEO' || tag === 'IFRAME') return;
+      if (e.key === 'ArrowRight') { e.preventDefault(); show(current + 1); }
+      if (e.key === 'ArrowLeft') { e.preventDefault(); show(current - 1); }
+      if (e.key === 'Home') { e.preventDefault(); show(0); }
+      if (e.key === 'End') { e.preventDefault(); show(slides.length - 1); }
+    });
+    // Click on the backdrop closes
+    dialog.addEventListener('click', (e) => { if (e.target === dialog) dialog.close(); });
+    dialog.addEventListener('close', () => {
+      stage.replaceChildren(); // stops any playing media
+      document.documentElement.classList.remove('menu-open');
+      opener?.focus();
+    });
+  });
+</script>
+
+<style>
+  .gallery__grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: var(--space-l) var(--gutter); align-items: end; }
+  .gallery__item { grid-column: span 12; }
+  @media (min-width: 48rem) {
+    .gallery__item--landscape { grid-column: span 7; }
+    .gallery__item--portrait { grid-column: span 5; }
+    .gallery__item--square { grid-column: span 5; }
+    .gallery__item:nth-child(4n + 3) { grid-column: 2 / span 6; }
+    .gallery__item:nth-child(4n + 4) { grid-column: span 5; }
+  }
+  .gallery__link { display: block; position: relative; }
+  .gallery__item--landscape .gallery__link { aspect-ratio: 3 / 2; }
+  .gallery__item--portrait .gallery__link { aspect-ratio: 4 / 5; }
+  .gallery__item--square .gallery__link { aspect-ratio: 4 / 3; }
+  .gallery__link :global(picture), .gallery__link :global(img) { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .gallery__link :global(img) { transition: transform 1.2s var(--ease-out); }
+  .gallery__link:hover :global(img), .gallery__link:focus-visible :global(img) { transform: scale(1.035); }
+  .gallery__link { cursor: zoom-in; }
+  .gallery__badge {
+    position: absolute; left: 0.75rem; bottom: 0.75rem; display: inline-flex; align-items: center; gap: 0.4rem;
+    padding: 0.4rem 0.7rem; background: var(--color-paper); color: var(--color-ink); font-size: 0.75rem; letter-spacing: 0.06em; text-transform: uppercase;
+  }
+  figcaption { margin-top: 0.6rem; font-size: var(--step--1); color: var(--color-muted); }
+
+  .lb {
+    width: 100%; height: 100%; max-width: none; max-height: none; margin: 0; padding: 0; border: 0;
+    background: rgb(20 20 19 / 0.97); color: var(--color-paper);
+    display: none; grid-template-rows: auto 1fr auto;
+  }
+  .lb[open] { display: grid; }
+  .lb::backdrop { background: rgb(20 20 19 / 0.9); }
+  .lb__bar, .lb__nav { display: flex; justify-content: space-between; align-items: center; padding: 0.75rem var(--gutter); }
+  .lb button { min-height: 2.75rem; padding-inline: 0.5rem; display: inline-flex; align-items: center; gap: 0.6rem; font-size: var(--step--1); letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-paper); }
+  .lb button:hover { color: var(--color-accent-soft); }
+  .lb :focus-visible { outline-color: var(--color-accent-soft); }
+  .lb__counter { font-size: var(--step--1); color: var(--color-on-dark-muted); }
+  .lb__stage { min-height: 0; display: grid; place-items: center; padding-inline: var(--gutter); }
+  .lb__stage :global(.lb__figure) { display: grid; grid-template-rows: 1fr auto; gap: 0.75rem; width: 100%; height: 100%; min-height: 0; }
+  .lb__stage :global(.lb__media) { min-height: 0; display: grid; place-items: center; }
+  .lb__stage :global(img), .lb__stage :global(video) { max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; }
+  .lb__stage :global(video) { width: 100%; }
+  .lb__stage :global(iframe) { width: min(100%, 140vh); aspect-ratio: 16 / 9; border: 0; }
+  .lb__stage :global(figcaption) { text-align: center; color: var(--color-on-dark-muted); margin: 0; }
+  @media (prefers-reduced-motion: no-preference) {
+    .lb[open] { animation: lb-in 380ms var(--ease-out); }
+  }
+  @keyframes lb-in { from { opacity: 0; } }
+</style>

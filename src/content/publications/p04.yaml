@@ -1,0 +1,8 @@
+# PLACEHOLDER — fictional outlet and publication.
+type: interview
+title: { lv: "Uzticība ir lēna valūta", en: "Trust is a slow currency" }
+date: 2024-12-02
+url: https://example.com/placeholder/baltijas-vestnesis-interview
+language: lv
+outlet: { name: Baltijas Vēstnesis, wordmark: italic }
+highlight: true

@@ -1,0 +1,10 @@
+# PLACEHOLDER — fictional outlet and publication.
+type: video-interview
+title: { lv: "Kā runāt krīzē: saruna ar Annu Bērziņu", en: "How to speak in a crisis: a conversation with Anna Bērziņa" }
+date: 2025-06-03
+url: https://example.com/placeholder/zinu-kanals-interview
+language: lv
+outlet: { name: Ziņu Kanāls 7, wordmark: condensed }
+thumbnail: ../../assets/images/media/interview-1.jpg
+video: { provider: youtube, id: aqz-KE-bpKQ }
+highlight: true

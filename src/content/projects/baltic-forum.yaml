@@ -1,0 +1,74 @@
+# PLACEHOLDER PROJECT — fictional client, copy and figures. Replace before launch.
+slug: baltic-forum
+placeholder: true
+featured: true
+order: 2
+layout: tall
+year: 2025
+category: event-communication
+client: Baltic Futures Forum
+role:
+  lv: Komunikācijas vadītāja
+  en: Head of communications
+title:
+  lv: Baltijas nākotnes forums
+  en: Baltic Futures Forum
+summary:
+  lv: Divu dienu reģionālas konferences komunikācija — no runātāju stāstiem līdz tiešraidēm.
+  en: Communications for a two-day regional conference — from speaker stories to live broadcasts.
+cover:
+  type: image
+  src: ../../assets/images/projects/baltic-forum-cover.jpg
+  alt:
+    lv: Runātājs uz izgaismotas skatuves pilnas zāles priekšā
+    en: A speaker on a lit stage in front of a full hall
+overview:
+  lv: |
+    Forums pulcēja 900 dalībniekus no visām Baltijas valstīm. Atbildēju par visu komunikāciju — mediju akreditāciju, runātāju stāstiem, sociālajiem tīkliem un pasākuma tiešraidēm.
+  en: |
+    The forum brought together 900 participants from across the Baltic states. I was responsible for all communication — media accreditation, speaker stories, social channels and live broadcasts.
+challenge:
+  lv: |
+    Konference konkurēja ar vairākiem līdzīgiem pasākumiem reģionā, un iepriekšējā gada mediju atspoguļojums bija minimāls.
+  en: |
+    The conference competed with several similar events in the region, and the previous year's media coverage had been minimal.
+strategy:
+  lv: |
+    Pārvērtām programmu stāstos: katrs runātājs kļuva par vienu jautājumu par reģiona nākotni. Mediji saņēma nevis programmu, bet tēmas.
+  en: |
+    We turned the programme into stories: each speaker became one question about the region's future. Media received themes, not a schedule.
+execution:
+  lv: |
+    Izveidojām preses centru ar 45 akreditētiem žurnālistiem, ikdienas preses brīfingus un video ierakstu sēriju ar runātājiem.
+  en: |
+    We set up a press centre for 45 accredited journalists, daily press briefings and a video series with the speakers.
+# FICTIONAL FIGURES — replace with verified results
+results:
+  - value: "45"
+    label: { lv: akreditēti žurnālisti, en: accredited journalists }
+  - value: "3,1 milj."
+    label: { lv: kopējā auditorija, en: combined audience }
+  - value: "+180%"
+    label: { lv: publikācijas pret iepriekšējo gadu, en: coverage vs. previous year }
+gallery:
+  - type: video
+    src: /video/baltic-forum-recap.mp4
+    webm: /video/baltic-forum-recap.webm
+    poster: ../../assets/images/projects/baltic-forum-2.jpg
+    alt: { lv: Foruma kopsavilkuma video, en: Forum recap video }
+    caption: { lv: Foruma kopsavilkums (bez skaņas), en: Forum recap (no sound) }
+  - type: embed
+    embed: { provider: youtube, id: aqz-KE-bpKQ }
+    poster: ../../assets/images/projects/baltic-forum-4.jpg
+    alt: { lv: Paneļdiskusijas ieraksts, en: Panel discussion recording }
+    caption: { lv: "Paneļdiskusija (vietturis — aizstāt ar īsto video)", en: "Panel discussion (placeholder — replace with the real video)" }
+  - type: image
+    src: ../../assets/images/projects/baltic-forum-1.jpg
+    alt: { lv: Preses centrs, en: The press centre }
+  - type: image
+    src: ../../assets/images/projects/baltic-forum-3.jpg
+    alt: { lv: Foruma dalībnieki, en: Forum participants }
+links:
+  - title: { lv: "Reģions meklē savu nākotni", en: "A region in search of its future" }
+    url: https://example.com/placeholder/forum-coverage
+    outlet: Baltijas Vēstnesis
