@@ -7,6 +7,7 @@ import ContactBand from '@/components/ContactBand.astro';
 import Wordmark from '@/components/Wordmark.astro';
 import { type Lang, langPaths, useTranslations, l } from '@/i18n';
 import { routeUrl } from '@/lib/routes';
+import { withBase } from '@/lib/url';
 import { getSite, getProjects, getPublications, getTestimonials } from '@/lib/content';
 
 export const getStaticPaths = langPaths;
@@ -25,8 +26,8 @@ const jsonLd = {
   name: site.name,
   jobTitle: l(site.title, lang),
   email: `mailto:${site.email}`,
-  url: new URL(`/${lang}/`, Astro.site).href,
-  image: new URL(site.ogImage, Astro.site).href,
+  url: new URL(routeUrl(lang, 'home'), Astro.site).href,
+  image: new URL(withBase(site.ogImage), Astro.site).href,
   sameAs: [site.socials.linkedin],
   address: { '@type': 'PostalAddress', addressLocality: lang === 'lv' ? 'Rīga' : 'Riga', addressCountry: 'LV' },
   knowsAbout: site.about.expertise.map((e) => l(e, lang)),

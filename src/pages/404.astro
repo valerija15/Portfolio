@@ -6,6 +6,8 @@
 import '@/styles/global.css';
 import lv from '@/i18n/lv.json';
 import en from '@/i18n/en.json';
+import { withBase } from '@/lib/url';
+import newsreaderUrl from '@/assets/fonts/newsreader-latin-opsz-normal.woff2?url';
 const texts = [
   { lang: 'lv', d: lv },
   { lang: 'en', d: en },
@@ -20,8 +22,8 @@ const texts = [
     <meta name="theme-color" content="#f4f2ec" />
     <title>404 — {lv.meta.notFound.title} / {en.meta.notFound.title}</title>
     <meta name="description" content={`${lv.meta.notFound.description} ${en.meta.notFound.description}`} />
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <link rel="preload" href="/fonts/newsreader-latin-opsz-normal.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="icon" href={withBase('/favicon.svg')} type="image/svg+xml" />
+    <link rel="preload" href={newsreaderUrl} as="font" type="font/woff2" crossorigin />
   </head>
   <body>
     <main class="nf container" id="main">
@@ -33,8 +35,8 @@ const texts = [
             <h1 id={`nf-${lang}`} class="display nf__title">{d.notFound.title}</h1>
             <p>{d.notFound.text}</p>
             <ul role="list" class="nf__links">
-              <li><a class="link" href={`/${lang}/`}>{d.notFound.home} <span class="arrow" aria-hidden="true">→</span></a></li>
-              <li><a class="link" href={`/${lang}/work/`}>{d.notFound.work} <span class="arrow" aria-hidden="true">→</span></a></li>
+              <li><a class="link" href={withBase(`/${lang}/`)}>{d.notFound.home} <span class="arrow" aria-hidden="true">→</span></a></li>
+              <li><a class="link" href={withBase(`/${lang}/work/`)}>{d.notFound.work} <span class="arrow" aria-hidden="true">→</span></a></li>
             </ul>
           </section>
         ))}

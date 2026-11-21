@@ -1,6 +1,7 @@
 ---
 import { LOCALES, INTL_LOCALE, type Lang, useTranslations } from '@/i18n';
 import { switchLocalePath } from '@/lib/routes';
+import { withBase } from '@/lib/url';
 
 interface Props {
   lang: Lang;
@@ -13,7 +14,7 @@ interface Props {
   /** Set false on pages without a counterpart in the other locale. */
   alternates?: boolean;
 }
-const { lang, title, description, image = '/og/og-default.jpg', type = 'website', jsonLd, noindex = false, alternates = true } = Astro.props;
+const { lang, title, description, image = withBase('/og/og-default.jpg'), type = 'website', jsonLd, noindex = false, alternates = true } = Astro.props;
 const t = useTranslations(lang);
 const site = Astro.site!;
 const canonical = new URL(Astro.url.pathname, site).href;

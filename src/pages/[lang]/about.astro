@@ -8,6 +8,7 @@ import { routeUrl } from '@/lib/routes';
 import { md } from '@/lib/markdown';
 import { pad2 } from '@/lib/format';
 import { getSite } from '@/lib/content';
+import { withBase } from '@/lib/url';
 
 export const getStaticPaths = langPaths;
 const lang = Astro.params.lang as Lang;
@@ -27,7 +28,7 @@ const a = site.about;
       <div class="prose measure" data-reveal style="--reveal-delay:1" set:html={md(l(a.bio, lang))} />
       <div class="about-intro__actions" data-reveal style="--reveal-delay:2">
         {site.cvPath && (
-          <a class="btn btn--ghost" href={site.cvPath} download type="application/pdf">
+          <a class="btn btn--ghost" href={withBase(site.cvPath)} download type="application/pdf">
             {t('about.cv')}
             <svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true" focusable="false"><path d="M8 2v9m-4-4 4 4 4-4M3 14h10" fill="none" stroke="currentColor" stroke-width="1.4" /></svg>
           </a>

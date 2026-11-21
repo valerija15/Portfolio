@@ -7,6 +7,7 @@ import { Picture } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
 import type { Lang } from '@/i18n';
 import VideoToggle from './VideoToggle.astro';
+import { withBase } from '@/lib/url';
 
 interface Props {
   lang: Lang;
@@ -35,8 +36,8 @@ const { lang, src, webm, poster, alt, sizes, widths = [480, 800, 1200, 1600, 200
     class="loop-video__poster"
   />
   <video muted loop playsinline preload="none" aria-hidden="true" tabindex="-1" disablepictureinpicture>
-    {webm && <source src={webm} type="video/webm" />}
-    <source src={src} type="video/mp4" />
+    {webm && <source src={withBase(webm)} type="video/webm" />}
+    <source src={withBase(src)} type="video/mp4" />
   </video>
   {standalone && <VideoToggle lang={lang} />}
 </div>

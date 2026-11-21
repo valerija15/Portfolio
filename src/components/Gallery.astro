@@ -7,6 +7,7 @@
 import { Picture, getImage } from 'astro:assets';
 import { type Lang, useTranslations, l } from '@/i18n';
 import type { Project } from '@/lib/content';
+import { withBase } from '@/lib/url';
 
 interface Props { lang: Lang; items: NonNullable<Project['gallery']>; title: string }
 const { lang, items, title } = Astro.props;
@@ -19,7 +20,7 @@ const prepared = await Promise.all(
     const thumb = item.type === 'image' ? item.src : item.poster;
     const large = await getImage({ src: thumb, width: Math.min(2000, thumb.width), format: 'webp' });
     let href = large.src;
-    if (item.type === 'video') href = item.src;
+    if (item.type === 'video') href = withBase(item.src);
     if (item.type === 'embed') href = item.embed.provider === 'youtube' ? `https://www.youtube.com/watch?v=${item.embed.id}` : `https://vimeo.com/${item.embed.id}`;
     const embedSrc =
       item.type === 'embed'
@@ -65,8 +66,8 @@ const prepared = await Promise.all(
           {item.type === 'image' && <img src={large.src} alt={alt} width={large.attributes.width} height={large.attributes.height} decoding="async" />}
           {item.type === 'video' && (
             <video controls playsinline preload="metadata" poster={large.src} aria-label={alt}>
-              {item.webm && <source src={item.webm} type="video/webm" />}
-              <source src={item.src} type="video/mp4" />
+              {item.webm && <source src={withBase(item.webm)} type="video/webm" />}
+              <source src={withBase(item.src)} type="video/mp4" />
             </video>
           )}
           {item.type === 'embed' && <iframe data-src={embedSrc} title={alt} allow="autoplay; fullscreen; picture-in-picture; encrypted-media" allowfullscreen />}

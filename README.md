@@ -52,23 +52,39 @@ Content schemas are enforced at build time. A missing translation, a malformed d
 
 ## Deploying
 
-The output is a fully static `dist/` folder. It works on any static host.
+The output is a fully static `dist/` folder. Two settings, both environment variables, control the URLs written into the build (canonical, hreflang, Open Graph, sitemap and every internal link):
 
-| Host | Setup |
-| --- | --- |
-| **Netlify** | Connect the repo. `netlify.toml` already sets `npm run build` → `dist`. |
-| **Vercel** | Import the repo. The Astro preset is auto-detected (build `npm run build`, output `dist`). |
-| **Cloudflare Pages** | Framework preset "Astro", build `npm run build`, output `dist`, env `NODE_VERSION=22`. |
+| Variable | Meaning | Default |
+| --- | --- | --- |
+| `SITE_URL` | Origin the site is served from | `https://anna-berzina.example.com` |
+| `BASE_PATH` | Sub-path, if the site doesn't live at the domain root | `/` |
 
-Set the public URL so canonical, hreflang, Open Graph and sitemap URLs are correct:
+### GitHub Pages (set up in this repo)
 
-```
-SITE_URL=https://your-domain.lv
-```
+`.github/workflows/deploy-pages.yml` builds and deploys on every push to `main`. The site is served at **https://valerija15.github.io/Portfolio/**, and the workflow sets `SITE_URL` and `BASE_PATH=/Portfolio` automatically.
 
-Set it as an environment variable on the host. The default is `https://anna-berzina.example.com` (`astro.config.mjs`).
+One-time setup: **Settings → Pages → Build and deployment → Source: GitHub Actions**. After that, each push to `main` deploys within a couple of minutes. You can watch it under the **Actions** tab, or re-run it manually with **Run workflow**.
 
-`public/_headers` (Netlify/Cloudflare) adds security headers and long-term caching for hashed assets and fonts. All hosts serve `dist/404.html` for unknown URLs.
+For a custom domain on Pages, add it under **Settings → Pages → Custom domain**. Then change the workflow env to `SITE_URL: https://your-domain.lv` and `BASE_PATH: /`.
+
+### Netlify
+
+1. Log in at app.netlify.com → **Add new site → Import an existing project → GitHub**, and pick this repo.
+2. Netlify reads `netlify.toml`: build command `npm run build`, publish directory `dist`, Node 22. Nothing to fill in.
+3. Under **Site configuration → Environment variables**, add `SITE_URL` = your Netlify URL (e.g. `https://anna-berzina.netlify.app`) or custom domain. Leave `BASE_PATH` unset, because Netlify serves from the root.
+4. Deploy. Every push to `main` redeploys, and pull requests get preview URLs.
+5. Optional: add a custom domain under **Domain management**. HTTPS is automatic.
+
+Netlify also offers form handling without a third-party service (see [Configuring the contact form](#configuring-the-contact-form)). `public/_headers` adds security headers and long-term caching for hashed assets.
+
+### Vercel / Cloudflare Pages
+
+- **Vercel:** import the repo. The Astro preset is auto-detected (build `npm run build`, output `dist`). Set `SITE_URL`.
+- **Cloudflare Pages:** framework preset "Astro", build `npm run build`, output `dist`, env `NODE_VERSION=22` and `SITE_URL`.
+
+All hosts serve `dist/404.html` for unknown URLs.
+
+> Use the site's links/helpers rather than hard-coded "/…" paths when editing components. Root-relative paths in content (`/video/…`, `cvPath`, `ogImage`) are prefixed with `BASE_PATH` automatically.
 
 ## Project structure
 
@@ -84,13 +100,13 @@ src/
     testimonials.yaml      ← quotes
   i18n/lv.json, en.json    ← all UI strings, page titles & meta descriptions
   assets/images/           ← source images (optimised to AVIF/WebP at build)
+  assets/fonts/            ← self-hosted, subset variable fonts (fingerprinted at build)
   styles/tokens.css        ← colours, type scale, spacing, motion
   styles/fonts.css         ← @font-face declarations
   components/, layouts/    ← presentation only, no copy
   pages/[lang]/...         ← routes, generated for /lv/ and /en/
 public/
   video/                   ← self-hosted MP4/WebM loops
-  fonts/                   ← self-hosted, subset variable fonts
   cv/anna-berzina-cv.pdf   ← downloadable CV
   og/og-default.jpg        ← default social share image
 scripts/
@@ -240,15 +256,15 @@ All design decisions are tokens in `src/styles/tokens.css`:
 **Fonts:**
 
 - Display: **Newsreader** (variable, opsz + wght). Body: **Hanken Grotesk** (variable).
-- Both are SIL OFL fonts, self-hosted in `public/fonts/` with `font-display: swap`.
+- Both are SIL OFL fonts, self-hosted in `src/assets/fonts/` with `font-display: swap`.
 - Both are verified to include all Latvian letters: ā č ē ģ ī ķ ļ ņ š ū ž (and capitals).
 - The files are subset and axis-limited by `scripts/optimize-fonts.py`.
 
 To change fonts:
 
-1. Put the new `.woff2` files in `public/fonts/` and update `src/styles/fonts.css`.
+1. Put the new `.woff2` files in `src/assets/fonts/` and update the relative `url()`s in `src/styles/fonts.css`.
 2. Update `--font-display` / `--font-body` in `tokens.css`.
-3. Update the two `<link rel="preload">` tags in `src/layouts/BaseLayout.astro`.
+3. Update the two font `?url` imports used for `<link rel="preload">` in `src/layouts/BaseLayout.astro`.
 
 > When splitting a font into `latin` / `latin-ext` files, keep combining marks (U+0300–036F) **out** of the `latin` `unicode-range`. Otherwise Chrome may draw "ī" as *i + floating macron* instead of the proper glyph.
 

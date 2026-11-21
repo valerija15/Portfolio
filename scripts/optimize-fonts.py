@@ -17,7 +17,7 @@ from fontTools import subset
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 NM = os.path.join(ROOT, "node_modules", "@fontsource-variable")
-OUT = os.path.join(ROOT, "public", "fonts")
+OUT = os.path.join(ROOT, "src", "assets", "fonts")
 LATIN = "U+0020-007E,U+00A0-00FF,U+0131,U+0152-0153,U+02C6,U+02DA,U+02DC,U+2013-2014,U+2018-201E,U+2022,U+2026,U+20AC,U+2122,U+2190-2193"
 EXT = "U+0100-017F"
 

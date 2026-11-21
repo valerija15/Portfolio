@@ -1,5 +1,6 @@
 import type { Lang } from '@/i18n';
 import { LOCALES } from '@/i18n';
+import { withBase, stripBase } from './url';
 
 /** Route keys used by navigation. Slugs are identical across locales. */
 export const NAV = ['home', 'about', 'work', 'experience', 'media', 'contact'] as const;
@@ -17,21 +18,21 @@ const SEGMENTS: Record<RouteKey, string> = {
 
 export function routeUrl(lang: Lang, key: RouteKey): string {
   const seg = SEGMENTS[key];
-  return seg ? `/${lang}/${seg}/` : `/${lang}/`;
+  return withBase(seg ? `/${lang}/${seg}/` : `/${lang}/`);
 }
 
 export function projectUrl(lang: Lang, slug: string): string {
-  return `/${lang}/work/${slug}/`;
+  return withBase(`/${lang}/work/${slug}/`);
 }
 
 /** Same page in another locale: swaps the leading /lv/ or /en/ segment. */
 export function switchLocalePath(pathname: string, target: Lang): string {
-  const parts = pathname.split('/');
+  const parts = stripBase(pathname).split('/');
   if ((LOCALES as readonly string[]).includes(parts[1] ?? '')) {
     parts[1] = target;
-    return parts.join('/');
+    return withBase(parts.join('/'));
   }
-  return `/${target}/`;
+  return withBase(`/${target}/`);
 }
 
 /** Whether a nav item is the current section. */
